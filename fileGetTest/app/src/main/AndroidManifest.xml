@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.filegettest">
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera2" />
 
     <application
         android:allowBackup="true"
@@ -27,12 +32,7 @@
                 android:resource="@xml/filepaths"/>
         </provider>
 
-
     </application>
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera2" />
+
 
 </manifest>
