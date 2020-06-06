@@ -1,4 +1,8 @@
 android/build
+android/app/build
 login-java+kotlin/build
+login-java+kotlin/app/build
 fileGetTest/build
-
+fileGetTest/app/build
+MyPage/build
+MyPage/app/build
