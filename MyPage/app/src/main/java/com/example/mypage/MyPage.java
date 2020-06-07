@@ -75,30 +75,35 @@ public class MyPage extends AppCompatActivity {
                         if (capsuleList != null) {
                             for (Capsule capsule : capsuleList) {
                                 int state_temp = capsule.getStatus_temp();
+                                int capsule_id = capsule.getCapsule_id();
                                 String title = String.valueOf(capsule.getContent().get(0).getContent_id());
                                 String url = capsule.getContent().get(0).getUrl() != null ?
                                         capsule.getContent().get(0).getUrl() : drawablePath;
                                 String created_date = capsule.getDate_created();
                                 String opened_date = capsule.getDate_created();
-                                String location = "대한민";
+                                String location = "Default";
+                                String d_day = "0";
                                 // UTC Time control국
 
 
                                 try {
                                     // UTC -> LOCAL TIME
                                     SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                    String utcDate = capsule.getDate_created();
-                                    Date date = getLocalTime(utcDate);
+                                    String created_utcDate = capsule.getDate_created();
+                                    Date crt_date = getLocalTime(created_utcDate);
 
-                                    String localDate = created_date = fm.format(date);
+                                    String localDate = fm.format(crt_date);
                                     created_date = localDate.substring(0, 4) + "년 " + localDate.substring(5, 7) +
                                             "월 " + localDate.substring(8, 10) + "일 " + localDate.substring(11, 13) + "시";
 
-                                    utcDate = capsule.getDate_opened();
-                                    date = getLocalTime(utcDate);
-                                    localDate = fm.format(date);
+                                    String opened_utcDate = capsule.getDate_opened();
+                                    Date opn_date = getLocalTime(opened_utcDate);
+                                    localDate = fm.format(opn_date);
                                     opened_date = localDate.substring(0, 4) + "년 " + localDate.substring(5, 7) +
                                             "월 " + localDate.substring(8, 10) + "일 " + localDate.substring(11, 13) + "시";
+
+                                    long diff = opn_date.getTime() - crt_date.getTime();
+                                    d_day = "D - " + Long.toString( diff/ (1000 * 60 * 60 * 24) );
 
                                     //Log.d(TAG,created_date);
                                 } catch (ParseException e) {
@@ -122,8 +127,8 @@ public class MyPage extends AppCompatActivity {
 
                                 Log.d(TAG,url+" "+title+" "+created_date+" "+opened_date+" "+location+" "+state_temp);
 
-                                CapsuleLogData capsuleLogData = new CapsuleLogData(url,
-                                        title, "#절친 #평생친구", created_date,
+                                CapsuleLogData capsuleLogData = new CapsuleLogData(capsule_id, d_day,
+                                        url, title, "#절친 #평생친구", created_date,
                                         opened_date, location, state_temp);
                                 arrayList.add(capsuleLogData);
                                 capsuleLogAdapter.notifyDataSetChanged(); // redirect

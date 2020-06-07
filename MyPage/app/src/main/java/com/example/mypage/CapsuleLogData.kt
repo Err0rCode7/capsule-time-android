@@ -1,6 +1,9 @@
 package com.example.mypage
 
-class CapsuleLogData (
+data class CapsuleLogData (
+        val capsule_id: Int,
+        val d_day: String,
+
         val iv_url: String,
         val tv_title: String,
         val tv_tags: String,

@@ -19,3 +19,6 @@ data class Capsule (
         val content: List<Content>
 )
 
+data class Success (
+        val success: String
+)
