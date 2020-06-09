@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <paths>
-        <external-path name="hidden" path="/Pictures/temp" />
-    </paths>
+    <external-path
+        name="my_images"
+        path="Android/data/com.example.com.example.mypage/files/Pictures" />
+    <root-path name="root" path="."/>
+
 </paths>

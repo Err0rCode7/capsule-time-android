@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -55,7 +56,6 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if(getItemViewType(position) == 0){
 
-
             Glide
                     .with(context)
                     .load(arrayList.get(position).getIv_url())
@@ -68,7 +68,8 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((CapsuleViewHolder) holder).tv_location.setText(arrayList.get(position).getTv_location());
             ((CapsuleViewHolder) holder).tv_opened_date.setText(arrayList.get(position).getTv_opened_date());
             ((CapsuleViewHolder) holder).tv_created_date.setText(arrayList.get(position).getTv_created_date());
-            ((CapsuleViewHolder) holder).cl_capsule.setBackgroundColor(Color.parseColor("#3Fa9c8fd"));
+            //((CapsuleViewHolder) holder).cl_capsule.setBackground(ContextCompat.getDrawable(context,R.drawable.radius_blue));
+            //((CapsuleViewHolder) holder).cl_capsule.setBackgroundColor(Color.parseColor("#3Fa9c8fd"));
 
             ((CapsuleViewHolder) holder).itemView.setTag(position);
             ((CapsuleViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
@@ -85,8 +86,8 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((TempCapsuleViewHolder) holder).tv_location.setText(arrayList.get(position).getTv_location());
             ((TempCapsuleViewHolder) holder).tv_opened_date.setText(arrayList.get(position).getTv_opened_date());
             ((TempCapsuleViewHolder) holder).tv_created_date.setText(arrayList.get(position).getTv_created_date());
+            //((TempCapsuleViewHolder) holder).cl_capsule.setBackground(ContextCompat.getDrawable(context,R.drawable.radius_blue));
 
-            ((TempCapsuleViewHolder) holder).cl_capsule.setBackgroundColor(Color.parseColor("#3Fff91b4"));
             /*
             ((TempCapsuleViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -149,7 +150,7 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             this.iv_thumb = (ImageView) itemView.findViewById(R.id.iv_thumb);
             this.tv_title = (TextView) itemView.findViewById(R.id.tvl_title);
             this.tv_tags = (TextView) itemView.findViewById(R.id.tv_tags);
-            this.tv_location = (TextView) itemView.findViewById(R.id.tvl_text);
+            this.tv_location = (TextView) itemView.findViewById(R.id.tv_location);
             this.tv_opened_date = (TextView) itemView.findViewById(R.id.tv_opened_date);
             this.tv_created_date = (TextView) itemView.findViewById(R.id.tv_created_date);
             this.cl_capsule = (ConstraintLayout) itemView.findViewById(R.id.cl_capsule);
@@ -167,7 +168,7 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public TempCapsuleViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            this.tv_location = (TextView) itemView.findViewById(R.id.tvl_text);
+            this.tv_location = (TextView) itemView.findViewById(R.id.tv_location);
             this.tv_opened_date = (TextView) itemView.findViewById(R.id.tv_opened_date);
             this.tv_created_date = (TextView) itemView.findViewById(R.id.tv_created_date);
             this.cl_capsule = (ConstraintLayout) itemView.findViewById(R.id.cl_capsule);

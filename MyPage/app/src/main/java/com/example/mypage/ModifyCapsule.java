@@ -3,12 +3,16 @@ package com.example.mypage;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,9 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +36,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,8 +55,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Multipart;
-import retrofit2.http.Tag;
 
 public class ModifyCapsule extends AppCompatActivity {
 
@@ -58,22 +62,28 @@ public class ModifyCapsule extends AppCompatActivity {
     private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
     private static final int CROP_FROM_iMAGE = 2;
-    private String absoultePath;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 100;
     private int capsule_id;
     private List<Uri> list;
-    private Uri mImageCaptureUri;
     private Uri photoUri;
-    private Uri albumUri;
+    private Uri cropUri;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private RetrofitInterface retrofitInterface;
-    private String mCurrentPhotoPath;
+    private String imageFilePath;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modify_capsule);
+
+        TedPermission.with(getApplicationContext())
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage("카메라 권한이 필요합니다.")
+                .setDeniedMessage("거부하셨습니다.")
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE)
+                .check();
 
         RetrofitClient retrofitClient = new RetrofitClient();
         retrofitInterface = retrofitClient.retrofitInterface;
@@ -121,6 +131,9 @@ public class ModifyCapsule extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 // 이미지 등록
                 String title = Objects.requireNonNull(tv_title.getText()).toString(); // null -> ""
                 String text = Objects.requireNonNull(tv_text.getText()).toString();
@@ -147,11 +160,9 @@ public class ModifyCapsule extends AppCompatActivity {
                             RequestBody requestFile = RequestBody.create(MediaType.parse(type), file);
                             parts.add(MultipartBody.Part.createFormData("file",file.getName(), requestFile));
                         }
-
-
-
-
                 }
+
+
 
                 /*
                 File file = new File("/storage/emulated/0/Download/google.jpg");
@@ -164,6 +175,8 @@ public class ModifyCapsule extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<Success> call, Response<Success> response) {
                             Log.d(TAG,"success");
+
+                            fileDelete(cropUri);
 
                             Toast.makeText(ModifyCapsule.this,"캡슐 수정이 완료되었습니다.",Toast.LENGTH_SHORT).show();
 
@@ -178,6 +191,8 @@ public class ModifyCapsule extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<Success> call, Throwable t) {
+
+                            fileDelete(cropUri);
                             Log.d(TAG,"fail");
                             Toast.makeText(ModifyCapsule.this,"캡슐 내용을 수정해주세요",Toast.LENGTH_SHORT).show();
                         }
@@ -188,10 +203,33 @@ public class ModifyCapsule extends AppCompatActivity {
 
 
 
+
             }
         });
     }
 
+    private void fileDelete(Uri uri) {
+        File fDelete = new File(uri.getPath());
+        if (fDelete.exists()) {
+            if (fDelete.delete()){
+                Log.d(TAG,uri.getPath() + " - file is deleted");
+            }
+        } else {
+            Log.d(TAG,uri.getPath() + "- file exist not");
+        }
+    }
+
+    PermissionListener permissionListener = new PermissionListener() {
+        @Override
+        public void onPermissionGranted() {
+            Toast.makeText(getApplicationContext(), "권한이 허용됨", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+            Toast.makeText(getApplicationContext(), "권한이 거됨", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     // 카메라에서 사진 촬영
     public void doTakePhotoAction() { // 카메라 촬영후 이미지 가져오기
@@ -199,67 +237,45 @@ public class ModifyCapsule extends AppCompatActivity {
 
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         if (permissionCheck == PackageManager.PERMISSION_DENIED) { // Camera Denied
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},0);
-            if (permissionCheck != PackageManager.PERMISSION_DENIED) {
-
-            }
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 0);
 
         } else { // Camera Accept
-            String state = Environment.getExternalStorageState();
 
-            // 외장 메모리 검사
-            if (Environment.MEDIA_MOUNTED.equals(state)) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                if (intent.resolveActivity(getPackageManager()) != null){
-                    File tempFile = null;
-                    try {
-                        tempFile = createImageFile();
-                    } catch (IOException ex){
-                        Log.e("captureCamera Error", ex.toString());
-                    }
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if(intent.resolveActivity(getPackageManager()) != null) {
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException e) {
 
-                    if(tempFile != null){
-                        // getUriForFile의 두 번째 인자는 Manifest provier의 authorites와 일치해야 함
+                }
 
-                        mImageCaptureUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", tempFile);
-                        // 인텐트에 전달할 때는 FileProvier의 Return값인 content://로만!!, providerURI의 값에 카메라 데이터를 넣어 보냄
-                        Log.d(TAG,mImageCaptureUri.toString());
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-                        startActivityForResult(intent, PICK_FROM_CAMERA);
-                    }
+                if(photoFile != null) {
+                    photoUri = FileProvider.getUriForFile(getApplicationContext(), getPackageName(), photoFile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                    startActivityForResult(intent, PICK_FROM_CAMERA);
                 }
             }
+
         }
-
-
     }
 
-    public void cropImage(){
-        Log.i("cropImage", "Call");
-        Log.i("cropImage", "photoURI : " + photoUri + " / albumURI : " + albumUri);
-
-        Intent cropIntent = new Intent("com.android.camera.action.CROP");
-
-        // 50x50픽셀미만은 편집할 수 없다는 문구 처리 + 갤러리, 포토 둘다 호환하는 방법
-        cropIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        cropIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        cropIntent.setDataAndType(mImageCaptureUri, "image/*");
-        //cropIntent.putExtra("outputX", 200); // crop한 이미지의 x축 크기, 결과물의 크기
-        //cropIntent.putExtra("outputY", 200); // crop한 이미지의 y축 크기
-        cropIntent.putExtra("aspectX", 1); // crop 박스의 x축 비율, 1&1이면 정사각형
-        cropIntent.putExtra("aspectY", 1); // crop 박스의 y축 비율
-        cropIntent.putExtra("scale", true);
-        cropIntent.putExtra("output", albumUri); // 크랍된 이미지를 해당 경로에 저장
-        startActivityForResult(cropIntent, CROP_FROM_iMAGE);
+    private void launchImageCrop(Uri uri) {
+        CropImage.activity(uri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setAspectRatio(480,480)
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .start(this);
+        Log.d("getPath", photoUri.toString());
     }
+
 
     private void galleryAddPic(){
         Log.i("galleryAddPic", "Call");
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         // 해당 경로에 있는 파일을 객체화(새로 파일을 만든다는 것으로 이해하면 안 됨)
-        File f = new File(mCurrentPhotoPath);
+        File f = new File(imageFilePath);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         sendBroadcast(mediaScanIntent);
@@ -278,6 +294,7 @@ public class ModifyCapsule extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setType("image/*");
         startActivityForResult(intent, PICK_FROM_ALBUM);
         /*
@@ -289,9 +306,15 @@ public class ModifyCapsule extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
+        Log.d("AAA","RESULT_OK = "+ RESULT_OK);
+        Log.d("AAA","resultCode = "+resultCode);
+
 
         if (resultCode != RESULT_OK) {
             Log.d(TAG,"request Not OK");
@@ -311,17 +334,6 @@ public class ModifyCapsule extends AppCompatActivity {
                     for (int i = 0; i < clipData.getItemCount(); i++) {
                         Uri imageUri = clipData.getItemAt(i).getUri();
                         list.add(imageUri);
-                        /*
-                        try {
-                            InputStream is = getContentResolver().openInputStream(imageUri);
-
-                            Bitmap bitmap = BitmapFactory.decodeStream(is);
-                            bitmaps.add(bitmap);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-
-                         */
                     }
 
                     ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, list, 0, tabLayout);
@@ -334,79 +346,109 @@ public class ModifyCapsule extends AppCompatActivity {
                     list.add(imageUri);
                     ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, list, 0, tabLayout);
                     viewPager.setAdapter(viewPagerAdapter);
-                    /*
-                    try {
-                        InputStream is = getContentResolver().openInputStream(imageUri);
-
-                        Bitmap bitmap = BitmapFactory.decodeStream(is);
-
-                        bitmaps.add(bitmap);
-                        imageView.setImageBitmap(bitmap); //사진 출력
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-
-                     */
 
                 }
                 break;
-                // 이미지 뷰 후처리 필요
-
-                /* 쓰레드를 이용한 이미지 리스트가 변화하면서 띄워지는 예제
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (final Bitmap b : bitmaps) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    imageView.setImageBitmap(b);
-                                }
-                            });
-                            try {
-                                Thread.sleep(3000);
-                            } catch ( InterruptedException e ) {
-                                e.printStackTrace();;
-                            }
-                        }
-                    }
-                });
-                */
-
-                /*
-                mImageCaptureUri = data.getData();
-                Log.d("user_img", mImageCaptureUri.getPath().toString());
-                */
 
             }
             case PICK_FROM_CAMERA: {
+                Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
+                ExifInterface exif = null;
 
-                if (data.getData() != null) {
+                Log.d("getPath", photoUri.toString());
+                launchImageCrop(photoUri);
+                /*
+                try {
+                    File albumFile = null;
+                    //albumFile = createImageFile();
+                    //photoUri =
+                    //albumUri = Uri.fromFile(albumFile);
+                    Log.d("CropTAG","CROPCROP");
+
+
+                    //cropImage();
+                    //exif = new ExifInterface(imageFilePath);
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+                */
+                /*
+                int exifOrientation;
+                int exifDegree;
+
+                if (exif != null){
+                    exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                    //exifDegree = exifOrientationToDegress(exifOrientation);
+                } else {
+                    exifDegree = 0;
+                }
+                */
+
+
+                //uri 버전
+                /*
+                if (data.getData() != null){
                     try {
+
                         File albumFile = null;
                         albumFile = createImageFile();
                         photoUri = data.getData();
                         albumUri = Uri.fromFile(albumFile);
                         Log.d("CropTAG","CROPCROP");
+
                         cropImage();
+
                     } catch (IOException e) {
+
                         e.printStackTrace();
+
                     }
                 } else {
-                    Log.d(TAG,"data null");
+                    Log.d("onResult","data null");
                 }
+                */
+                //비트맵 버전
+                /*
+                try {
+                    if(data.hasExtra("data")){
+
+                        Bundle extras = data.getExtras();
+                        Bitmap bitmap = (Bitmap) extras.get("data");
+
+                        //bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+
+                        //requestReadExternalStoragePermission();
+
+                        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "Title", null);
+
+                        File albumFile = null;
+                        albumFile = createImageFile();
+                        photoUri = Uri.parse(path);
+                        albumUri = Uri.fromFile(albumFile);
+                        Log.d("CropTAG","CROPCROP");
+                        cropImage();
+                    } else {
+                        Log.d(TAG,"data null");
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                 */
 
                 break;
             }
-            case CROP_FROM_iMAGE: {
-
-
-                galleryAddPic();
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE : {
+                CropImage.ActivityResult activityResult = CropImage.getActivityResult(data);
+                cropUri = activityResult.getUri();
+                Log.d("CROP_RESULT","CROP_RESULT");
+                //galleryAddPic();
                 list.clear();
-                list.add(albumUri);
+                list.add(cropUri);
                 ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, list, 0, tabLayout);
                 viewPager.setAdapter(viewPagerAdapter);
+
                 // 임시 파일 삭제
                 /*
                 File f = new File(mImageCaptureUri.getPath());
@@ -425,19 +467,21 @@ public class ModifyCapsule extends AppCompatActivity {
     public File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + ".jpg";
-        File imageFile = null;
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "temp");
-        if (!storageDir.exists()) {
-            Log.i("mCurrentPhotoPath1", storageDir.toString());
-            storageDir.mkdirs();
-        }
+        String imageFileName = "TEST_" + timeStamp + "_";
 
-        imageFile = new File(storageDir, imageFileName);
-        mCurrentPhotoPath = imageFile.getAbsolutePath();
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        Log.d("Env_DIR_PICTURES",Environment.DIRECTORY_PICTURES);
 
+        File imageFile = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+        );
+        imageFilePath = imageFile.getAbsolutePath();
+        Log.d("mCurrentPhotoPath2", imageFilePath);
         return imageFile;
     }
+
 
     @NonNull
     static String getMimeType(@NonNull File file) {
@@ -451,6 +495,54 @@ public class ModifyCapsule extends AppCompatActivity {
             type = "image/*"; // fallback type. You might set it to */*
         }
         return type;
+    }
+
+
+    private void requestReadExternalStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE );
+                // MY_PERMISSIONS_REQUEST_READ_EXT_STORAGE is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE : {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     /**

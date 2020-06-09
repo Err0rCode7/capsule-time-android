@@ -22,7 +22,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvl_text"
+            app:layout_constraintEnd_toStartOf="@+id/tv_location"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/location" />
 
@@ -43,7 +43,7 @@
             app:srcCompat="@drawable/test_airplane" />
 
         <TextView
-            android:id="@+id/tvl_text"
+            android:id="@+id/tv_location"
             android:layout_width="286dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"

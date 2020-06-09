@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.Format;
@@ -58,92 +60,85 @@ public class MyPage extends AppCompatActivity {
         arrayList = new ArrayList<>();
         capsuleLogAdapter = new CapsuleLogAdapter(arrayList,this);
         recyclerView.setAdapter(capsuleLogAdapter);
-        Button btn_add = (Button)findViewById(R.id.btn_add);
 
-        btn_add.setOnClickListener(new View.OnClickListener() {
+        // 데이터 추가
+
+        retrofitInterface.requestSearchUserCapsule("id0").enqueue(new Callback <List<Capsule>>() {
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
-            public void onClick(View v) {
-                // 데이터 추가
-
-                retrofitInterface.requestSearchUserCapsule("id0").enqueue(new Callback <List<Capsule>>() {
-
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onResponse(Call<List<Capsule>> call, Response<List<Capsule>> response) {
-                        capsuleList = response.body();
-                        Log.d(TAG,capsuleList.toString());
-                        if (capsuleList != null) {
-                            for (Capsule capsule : capsuleList) {
-                                int state_temp = capsule.getStatus_temp();
-                                int capsule_id = capsule.getCapsule_id();
-                                String title = String.valueOf(capsule.getContent().get(0).getContent_id());
-                                String url = capsule.getContent().get(0).getUrl() != null ?
-                                        capsule.getContent().get(0).getUrl() : drawablePath;
-                                String created_date = capsule.getDate_created();
-                                String opened_date = capsule.getDate_created();
-                                String location = "Default";
-                                String d_day = "0";
-                                // UTC Time control
+            public void onResponse(Call<List<Capsule>> call, Response<List<Capsule>> response) {
+                capsuleList = response.body();
+                Log.d(TAG,capsuleList.toString());
+                if (capsuleList != null) {
+                    for (Capsule capsule : capsuleList) {
+                        int state_temp = capsule.getStatus_temp();
+                        int capsule_id = capsule.getCapsule_id();
+                        String title = capsule.getTitle() != null ? capsule.getTitle() : "";
+                        String url = capsule.getContent().get(0).getUrl() != null ?
+                                capsule.getContent().get(0).getUrl() : drawablePath;
+                        String created_date = capsule.getDate_created();
+                        String opened_date = capsule.getDate_created();
+                        String location = "Default";
+                        String d_day = "0";
+                        // UTC Time control
 
 
-                                try {
-                                    // UTC -> LOCAL TIME
-                                    SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                    String created_utcDate = capsule.getDate_created();
-                                    Date crt_date = getLocalTime(created_utcDate);
+                        try {
+                            // UTC -> LOCAL TIME
+                            SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            String created_utcDate = capsule.getDate_created();
+                            Date crt_date = getLocalTime(created_utcDate);
 
-                                    String localDate = fm.format(crt_date);
-                                    created_date = localDate.substring(0, 4) + "년 " + localDate.substring(5, 7) +
-                                            "월 " + localDate.substring(8, 10) + "일 " + localDate.substring(11, 13) + "시";
+                            String localDate = fm.format(crt_date);
+                            created_date = localDate.substring(0, 4) + "년 " + localDate.substring(5, 7) +
+                                    "월 " + localDate.substring(8, 10) + "일 " + localDate.substring(11, 13) + "시";
 
-                                    String opened_utcDate = capsule.getDate_opened();
-                                    Date opn_date = getLocalTime(opened_utcDate);
-                                    localDate = fm.format(opn_date);
-                                    opened_date = localDate.substring(0, 4) + "년 " + localDate.substring(5, 7) +
-                                            "월 " + localDate.substring(8, 10) + "일 " + localDate.substring(11, 13) + "시";
+                            String opened_utcDate = capsule.getDate_opened();
+                            Date opn_date = getLocalTime(opened_utcDate);
+                            localDate = fm.format(opn_date);
+                            opened_date = localDate.substring(0, 4) + "년 " + localDate.substring(5, 7) +
+                                    "월 " + localDate.substring(8, 10) + "일 " + localDate.substring(11, 13) + "시";
 
-                                    Date date = new Date();
+                            Date date = new Date();
 
-                                    long diff = date.getTime() - opn_date.getTime();
-                                    d_day = "D - " + Long.toString( diff/ (1000 * 60 * 60 * 24) );
+                            long diff = date.getTime() - opn_date.getTime();
+                            d_day = "D - " + Long.toString( diff/ (1000 * 60 * 60 * 24) );
 
-                                    //Log.d(TAG,created_date);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                    Log.d(TAG, "asdasd");
-                                }
-
-                                try {
-                                    List<Address> list = geocoder.getFromLocation(capsule.getLat(), capsule.getLng(), 3);
-                                    if (list != null) {
-                                        if (list.size() == 0){
-                                            // no
-                                        } else {
-                                            location = list.get(0).getAddressLine(0);
-                                            Log.d(TAG, "location good");
-                                        }
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-                                Log.d(TAG,url+" "+title+" "+created_date+" "+opened_date+" "+location+" "+state_temp);
-
-                                CapsuleLogData capsuleLogData = new CapsuleLogData(capsule_id, d_day,
-                                        url, title, "#절친 #평생친구", created_date,
-                                        opened_date, location, state_temp);
-                                arrayList.add(capsuleLogData);
-                                capsuleLogAdapter.notifyDataSetChanged(); // redirect
-                            }
+                            //Log.d(TAG,created_date);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            Log.d(TAG, "asdasd");
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<List<Capsule>> call, Throwable t) {
-                        Log.d(TAG, "fail");
-                    }
-                });
+                        try {
+                            List<Address> list = geocoder.getFromLocation(capsule.getLat(), capsule.getLng(), 3);
+                            if (list != null) {
+                                if (list.size() == 0){
+                                    // no
+                                } else {
+                                    location = list.get(0).getAddressLine(0);
+                                    Log.d(TAG, "location good");
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
+                        Log.d(TAG,url+" "+title+" "+created_date+" "+opened_date+" "+location+" "+state_temp);
+
+                        CapsuleLogData capsuleLogData = new CapsuleLogData(capsule_id, d_day,
+                                url, title, "#절친 #평생친구", created_date,
+                                opened_date, location, state_temp);
+                        arrayList.add(capsuleLogData);
+                        capsuleLogAdapter.notifyDataSetChanged(); // redirect
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Capsule>> call, Throwable t) {
+                Log.d(TAG, "fail");
             }
         });
     }
