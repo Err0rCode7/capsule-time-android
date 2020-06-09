@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tv_text"
+        android:id="@+id/tvl_text"
         android:layout_width="247dp"
         android:layout_height="18dp"
         android:layout_marginStart="10dp"
@@ -46,7 +46,7 @@
         android:layout_marginTop="18dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_text"
+        app:layout_constraintEnd_toStartOf="@+id/tvl_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:srcCompat="@drawable/location" />

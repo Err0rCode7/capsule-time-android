@@ -83,7 +83,7 @@ public class MyPage extends AppCompatActivity {
                                 String opened_date = capsule.getDate_created();
                                 String location = "Default";
                                 String d_day = "0";
-                                // UTC Time control국
+                                // UTC Time control
 
 
                                 try {
@@ -102,7 +102,9 @@ public class MyPage extends AppCompatActivity {
                                     opened_date = localDate.substring(0, 4) + "년 " + localDate.substring(5, 7) +
                                             "월 " + localDate.substring(8, 10) + "일 " + localDate.substring(11, 13) + "시";
 
-                                    long diff = opn_date.getTime() - crt_date.getTime();
+                                    Date date = new Date();
+
+                                    long diff = date.getTime() - opn_date.getTime();
                                     d_day = "D - " + Long.toString( diff/ (1000 * 60 * 60 * 24) );
 
                                     //Log.d(TAG,created_date);

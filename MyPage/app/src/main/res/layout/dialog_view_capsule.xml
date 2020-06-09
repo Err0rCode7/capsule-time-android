@@ -22,7 +22,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tv_text"
+            app:layout_constraintEnd_toStartOf="@+id/tvl_text"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/location" />
 
@@ -43,7 +43,7 @@
             app:srcCompat="@drawable/test_airplane" />
 
         <TextView
-            android:id="@+id/tv_text"
+            android:id="@+id/tvl_text"
             android:layout_width="286dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -60,7 +60,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tvl_title"
             android:layout_width="234dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="21dp"
@@ -74,7 +74,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tv_created"
             app:layout_constraintEnd_toStartOf="@+id/tv_d_day"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_delete" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_back" />
 
         <TextView
             android:id="@+id/tv_d_day"
@@ -90,8 +90,8 @@
             android:textSize="28sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_created_date"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_title"
-            app:layout_constraintTop_toBottomOf="@+id/iv_delete" />
+            app:layout_constraintStart_toEndOf="@+id/tvl_title"
+            app:layout_constraintTop_toBottomOf="@+id/iv_back" />
 
         <TextView
             android:id="@+id/tv_created"
@@ -105,7 +105,7 @@
             android:text="created :"
             app:layout_constraintEnd_toStartOf="@+id/tv_created_date"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+            app:layout_constraintTop_toBottomOf="@+id/tvl_title" />
 
         <TextView
             android:id="@+id/tv_created_date"
@@ -119,7 +119,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_d_day" />
 
         <ImageView
-            android:id="@+id/iv_delete"
+            android:id="@+id/iv_back"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginTop="4dp"

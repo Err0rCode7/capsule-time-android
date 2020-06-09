@@ -101,6 +101,7 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public boolean onLongClick(View v) {
                     Intent intent = new Intent(v.getContext(), ModifyCapsule.class);
+                    intent.putExtra("capsule_id", arrayList.get(position).getCapsule_id());
                     v.getContext().startActivity(intent);
 
                     //remove(((TempCapsuleViewHolder) holder).getAdapterPosition());
@@ -146,9 +147,9 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
 
             this.iv_thumb = (ImageView) itemView.findViewById(R.id.iv_thumb);
-            this.tv_title = (TextView) itemView.findViewById(R.id.tv_title);
+            this.tv_title = (TextView) itemView.findViewById(R.id.tvl_title);
             this.tv_tags = (TextView) itemView.findViewById(R.id.tv_tags);
-            this.tv_location = (TextView) itemView.findViewById(R.id.tv_text);
+            this.tv_location = (TextView) itemView.findViewById(R.id.tvl_text);
             this.tv_opened_date = (TextView) itemView.findViewById(R.id.tv_opened_date);
             this.tv_created_date = (TextView) itemView.findViewById(R.id.tv_created_date);
             this.cl_capsule = (ConstraintLayout) itemView.findViewById(R.id.cl_capsule);
@@ -166,7 +167,7 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public TempCapsuleViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            this.tv_location = (TextView) itemView.findViewById(R.id.tv_text);
+            this.tv_location = (TextView) itemView.findViewById(R.id.tvl_text);
             this.tv_opened_date = (TextView) itemView.findViewById(R.id.tv_opened_date);
             this.tv_created_date = (TextView) itemView.findViewById(R.id.tv_created_date);
             this.cl_capsule = (ConstraintLayout) itemView.findViewById(R.id.cl_capsule);

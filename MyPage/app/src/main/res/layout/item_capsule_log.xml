@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tvl_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -45,11 +45,11 @@
         android:text="tags"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintStart_toEndOf="@+id/iv_thumb"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/tvl_title"
         app:layout_constraintVertical_bias="0.733" />
 
     <TextView
-        android:id="@+id/tv_text"
+        android:id="@+id/tvl_text"
         android:layout_width="191dp"
         android:layout_height="17dp"
         android:layout_marginStart="10dp"
@@ -90,7 +90,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="17dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_text"
+        app:layout_constraintEnd_toStartOf="@+id/tvl_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_tags"
         app:srcCompat="@drawable/location" />

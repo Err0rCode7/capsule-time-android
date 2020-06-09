@@ -45,12 +45,12 @@ public class ViewCapsuleDialog {
         RetrofitClient retrofitClient = new RetrofitClient();
         retrofitInterface = retrofitClient.retrofitInterface;
 
-        TextView tv_title = (TextView) dlg.findViewById(R.id.tv_title);
-        TextView tv_location = (TextView) dlg.findViewById(R.id.tv_text);
+        TextView tv_title = (TextView) dlg.findViewById(R.id.tvl_title);
+        TextView tv_location = (TextView) dlg.findViewById(R.id.tvl_text);
         TextView tv_created_date = (TextView) dlg.findViewById(R.id.tv_created_date);
         TextView tv_d_date = (TextView) dlg.findViewById(R.id.tv_d_day);
         ImageView iv_thumb = (ImageView) dlg.findViewById(R.id.iv_thumb);
-        ImageView iv_delete = (ImageView) dlg.findViewById(R.id.iv_delete);
+        ImageView iv_delete = (ImageView) dlg.findViewById(R.id.iv_back);
 
         tv_title.setText(capsuleLogData.getTv_title());
         tv_location.setText(capsuleLogData.getTv_location());

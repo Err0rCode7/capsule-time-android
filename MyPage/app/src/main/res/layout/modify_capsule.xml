@@ -23,32 +23,31 @@
             android:layout_marginTop="82dp"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/plus_box"
 
             app:layout_constraintBottom_toTopOf="@+id/tab_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_delete" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_back" />
+
 
         <ImageView
-            android:id="@+id/iv_delete"
+            android:id="@+id/iv_back"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginStart="365dp"
-            android:layout_marginLeft="365dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginEnd="370dp"
+            android:layout_marginRight="370dp"
             android:clickable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/trash_bin" />
-
+            app:srcCompat="@drawable/back_arrow" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tv_text"
+            android:id="@+id/tvl_text"
             android:layout_width="297dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="58dp"
@@ -57,33 +56,35 @@
             android:layout_marginRight="58dp"
             android:layout_marginBottom="12dp"
             android:text="text"
-            app:layout_constraintBottom_toTopOf="@+id/tv_tag"
+            app:layout_constraintBottom_toTopOf="@+id/tvl_tag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tv_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tv_tag"
+            android:id="@+id/tvl_tag"
             android:layout_width="297dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="58dp"
             android:layout_marginLeft="58dp"
             android:layout_marginEnd="58dp"
             android:layout_marginRight="58dp"
-            android:layout_marginBottom="88dp"
+            android:layout_marginBottom="15dp"
             android:text="tags"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_set"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tv_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="tag" />
@@ -94,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="59dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_text"
+            app:layout_constraintBottom_toTopOf="@+id/tvl_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/const_vp"
@@ -104,7 +105,7 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tv_title"
+            android:id="@+id/tvl_title"
             android:layout_width="234dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="88dp"
@@ -116,14 +117,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_delete">
+            app:layout_constraintTop_toBottomOf="@+id/iv_back">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Title"
                 android:textSize="24sp" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="161dp"
+            android:layout_marginLeft="161dp"
+            android:layout_marginEnd="162dp"
+            android:layout_marginRight="162dp"
+            android:layout_marginBottom="25dp"
+            android:text="완료"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
