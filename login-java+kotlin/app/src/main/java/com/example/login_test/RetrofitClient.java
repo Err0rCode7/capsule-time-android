@@ -11,5 +11,5 @@ public class RetrofitClient {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-    public Auth_service auth_service = retrofit.create(Auth_service.class);
+    public RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
 }

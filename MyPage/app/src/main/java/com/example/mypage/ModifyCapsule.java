@@ -270,7 +270,7 @@ public class ModifyCapsule extends AppCompatActivity {
         Log.d("getPath", photoUri.toString());
     }
 
-
+    /*
     private void galleryAddPic(){
         Log.i("galleryAddPic", "Call");
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -281,9 +281,10 @@ public class ModifyCapsule extends AppCompatActivity {
         sendBroadcast(mediaScanIntent);
         Toast.makeText(this, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show();
     }
+     */
 
     // 앨범에서 이미지 가져오기
-    public void doTakeAlbumAction() { //앨범에서 이미지 가져오기
+    public void doTakeAlbumAction() {
 
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

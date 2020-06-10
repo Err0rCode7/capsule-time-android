@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +29,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Auth_service auth_service;
+    private RetrofitInterface retrofitInterface;
     private EditText idText;
     private EditText pwText;
     private Button button;
@@ -40,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
         RetrofitClient retrofit_Client = new RetrofitClient();
 
-        auth_service = retrofit_Client.auth_service;
+        retrofitInterface = retrofit_Client.retrofitInterface;
 
-        idText = findViewById(R.id.editText);
+        idText = findViewById(R.id.et_nick_name);
         pwText = findViewById(R.id.editText2);
         button = findViewById(R.id.button);
 
@@ -52,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
                final String id = idText.getText().toString();
                final String pw = pwText.getText().toString();
                temp = id;
-               auth_service.requestLogin(id, pw).enqueue(new Callback<Auth_data>() {
+               retrofitInterface.requestLogin(id, pw).enqueue(new Callback<Success>() {
                    @Override
-                   public void onResponse(Call<Auth_data> call, Response<Auth_data> response) {
-                       Auth_data auth = response.body();
+                   public void onResponse(Call<Success> call, Response<Success> response) {
+                       Success auth = response.body();
                        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
 
                        dialog.setTitle("알람!");
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                    }
 
                    @Override
-                   public void onFailure(Call<Auth_data> call, Throwable t) {
+                   public void onFailure(Call<Success> call, Throwable t) {
                        Log.d("DEBUG :",t.getMessage());
                        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
                        dialog.setTitle("알람!");
@@ -84,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
         });
         signUp = findViewById(R.id.SignUp);
         Spannable span = (Spannable)signUp.getText();
-
+        ForegroundColorSpan foregroundSpan = new ForegroundColorSpan(Color.GRAY);
+        span.setSpan(foregroundSpan, 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         span.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View v) {
@@ -92,6 +96,13 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("id", temp); // 인텐트 값을 전달
                 startActivity(intent); // 액티비티 이동
             }
+
+            @Override
+            public void updateDrawState(final TextPaint textPaint) { // 색 정의
+                textPaint.setColor(MainActivity.this.getResources().getColor(R.color.gray));
+                textPaint.setUnderlineText(true);
+            }
+
         },0,6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         signUp.setMovementMethod(LinkMovementMethod.getInstance());
 

@@ -2,17 +2,12 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-
     android:layout_width="fill_parent"
-
     android:layout_height="fill_parent"
-
     android:weightSum="1"
-
-    android:background="#ffffff">
+    android:background="#FFAAB4ED">
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
@@ -20,8 +15,8 @@
 
         android:layout_width="match_parent"
 
-        android:layout_height="241dp"
-        android:layout_marginBottom="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="203dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,6 +24,61 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
 
+
+        <EditText
+            android:id="@+id/et_nick_name"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="140dp"
+            android:layout_marginLeft="140dp"
+            android:layout_marginTop="39dp"
+            android:layout_marginEnd="141dp"
+            android:layout_marginRight="141dp"
+            android:layout_marginBottom="26dp"
+            android:background="@drawable/radius_text"
+            android:ems="10"
+            android:hint="Your Nick"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/et_first_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+        <EditText
+            android:id="@+id/et_first_name"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="150dp"
+            android:layout_marginLeft="150dp"
+            android:layout_marginEnd="151dp"
+            android:layout_marginRight="151dp"
+            android:layout_marginBottom="31dp"
+            android:background="@drawable/radius_text"
+            android:ems="10"
+            android:hint="First Name"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/et_last_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_nick_name" />
+
+        <EditText
+            android:id="@+id/et_last_name"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="140dp"
+            android:layout_marginLeft="140dp"
+            android:layout_marginEnd="141dp"
+            android:layout_marginRight="141dp"
+            android:layout_marginBottom="60dp"
+            android:background="@drawable/radius_text"
+            android:ems="10"
+            android:hint="Last Name"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/btn_signupfinish"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_first_name" />
 
         <Button
 
@@ -43,25 +93,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-            app:layout_constraintVertical_bias="0.737" />
+            app:layout_constraintTop_toBottomOf="@+id/et_last_name" />
 
         <FrameLayout
             android:id="@+id/frameLayout"
-            android:layout_width="65dp"
-            android:layout_height="58dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="36dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="51dp"
-                android:layout_height="49dp"
-                android:layout_gravity="center_horizontal"
 
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
                 android:innerRadius="0dp"
                 android:shape="ring"
+                app:cardBackgroundColor="@android:color/transparent"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="0dp">
 
@@ -70,20 +122,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
-                    app:srcCompat="@drawable/ic_account_circle_black_24dp"
+                    app:srcCompat="@drawable/user"
                     tools:ignore="VectorDrawableCompat" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/btn_UploadPicture"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="70dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="35dp"
+                android:background="#FFFFFF"
                 android:clickable="true"
                 android:innerRadius="0dp"
                 android:shape="ring"
+                app:cardBackgroundColor="#FFFFFFFF"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="0dp">
 
@@ -96,18 +150,44 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btn_close"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="38dp"
+                android:layout_marginTop="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="#FFFFFF"
+                android:clickable="true"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                app:cardBackgroundColor="#FFFFFFFF"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    app:srcCompat="@drawable/close" />
+
+            </androidx.cardview.widget.CardView>
+
         </FrameLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:id="@+id/constraintLayout3"
-        android:layout_width="418dp"
-        android:layout_height="170dp"
+        android:layout_width="match_parent"
+        android:layout_height="116dp"
         android:layout_gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -118,32 +198,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="17dp"
             android:gravity="center_horizontal"
-            android:text="프로필 사진"
+            android:text="SignUp"
             android:textColor="#111111"
             android:textSize="40sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="19dp"
-            android:gravity="center_horizontal"
-            android:text="사진 한 장을 골라주세요!"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

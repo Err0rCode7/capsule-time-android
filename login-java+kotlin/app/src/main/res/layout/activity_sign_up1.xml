@@ -5,94 +5,107 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#FFAAB4ED"
     tools:context=".SignUp1">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="163dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/tv_title_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="97dp"
+            android:layout_marginLeft="97dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="98dp"
+            android:layout_marginRight="98dp"
+            android:fontFamily="@font/architects_daughter"
+            android:text="Capsule Time"
+            android:textColor="#000000"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toTopOf="@+id/SignUpText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/SignUpText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="68dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="24dp"
             android:text="SignUp"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/is"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/is"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp"
-            android:text="Test ) 입력한 text :"
             android:textColor="#000000"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/SignUpText" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_name" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="314dp"
-        android:layout_marginBottom="254dp"
+        android:layout_width="405dp"
+        android:layout_height="401dp"
+        android:layout_marginBottom="127dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <EditText
+            android:id="@+id/tv_email"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="121dp"
+            android:layout_marginRight="121dp"
+            android:background="@drawable/radius_text"
+            android:hint="email"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/bt_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_pw" />
+
+        <EditText
             android:id="@+id/tv_id"
             android:layout_width="105dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="165dp"
-            android:layout_marginLeft="165dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginEnd="164dp"
-            android:layout_marginRight="164dp"
-            android:layout_marginBottom="31dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="21dp"
             android:background="@drawable/radius_text"
             android:hint="ID"
-            android:textSize="15sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_pw"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.521"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/tv_pw"
             android:layout_width="105dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="165dp"
-            android:layout_marginLeft="165dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="164dp"
-            android:layout_marginRight="164dp"
-            android:layout_marginBottom="22dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:background="@drawable/radius_text"
             android:hint="PASSWORD"
             android:inputType="textPassword"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@+id/bt_next"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_email"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.521"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_id" />
 
@@ -101,20 +114,15 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="165dp"
-            android:layout_marginLeft="165dp"
-            android:layout_marginTop="21dp"
 
-            android:layout_marginEnd="158dp"
-            android:layout_marginRight="158dp"
+            android:layout_marginTop="72dp"
             android:background="@drawable/ripple"
             android:text="Next"
             android:textColor="#2E2E2E"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_pw" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_email" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
