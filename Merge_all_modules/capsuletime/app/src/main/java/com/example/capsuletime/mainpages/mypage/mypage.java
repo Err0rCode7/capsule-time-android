@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import retrofit2.Call;
@@ -83,16 +84,25 @@ public class mypage extends AppCompatActivity {
         capsuleLogAdapter = new CapsuleLogAdapter(arrayList,this);
         recyclerView.setAdapter(capsuleLogAdapter);
 
+        iv_user.setImageResource(R.drawable.user);
+
         if(user == null){
             retrofitInterface.requestUserData(user_id).enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     user = response.body();
                     if (user != null) {
-                        Glide
-                            .with(getApplicationContext())
-                            .load(user.getImage_url())
-                            .into(iv_user);
+                        if(user.getImage_url() == null || Objects.equals(user.getImage_url(), "")){
+                            Log.d(TAG,"url null");
+                            iv_user.setImageResource(R.drawable.user);
+                        } else {
+                            Log.d(TAG,"url not null");
+                            Glide
+                                .with(getApplicationContext())
+                                .load(user.getImage_url())
+                                .into(iv_user);
+                        }
+
                         tv_id.setText(user.getUser_id());
                     } else {
                         iv_user.setImageResource(R.drawable.user);
@@ -106,10 +116,16 @@ public class mypage extends AppCompatActivity {
                 }
             });
         } else {
-            Glide
-                .with(getApplicationContext())
-                .load(user.getImage_url())
-                .into(iv_user);
+            if(user.getImage_url() == null || Objects.equals(user.getImage_url(), "")){
+                Log.d(TAG,"user not null url null");
+                iv_user.setImageResource(R.drawable.user);
+            } else {
+                Log.d(TAG,"user not null url not null");
+                Glide
+                    .with(getApplicationContext())
+                    .load(user.getImage_url())
+                    .into(iv_user);
+            }
             tv_id.setText(user.getUser_id());
         }
 

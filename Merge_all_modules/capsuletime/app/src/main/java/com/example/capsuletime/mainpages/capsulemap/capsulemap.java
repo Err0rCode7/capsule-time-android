@@ -72,7 +72,6 @@ public class capsulemap extends AppCompatActivity {
                     case R.id.mypage: {
                         Intent intent = new Intent(getApplicationContext(), mypage.class);
                         intent.putExtra("user", user);
-
                         startActivity(intent);
                         overridePendingTransition(0,0);
                         return true;

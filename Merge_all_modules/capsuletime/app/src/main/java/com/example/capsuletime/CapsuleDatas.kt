@@ -10,8 +10,8 @@ data class Success (
 )
 
 data class Content (
-        val content_id: Int,
-        val url: String
+        val content_id: Int?,
+        val url: String?
 )
 
 data class Capsule (
@@ -41,16 +41,17 @@ data class CapsuleLogData (
 )
 
 data class User(
-        var user_id: String,
-        var nick_name: String,
-        var fist_name: String,
-        var last_name: String,
-        var email_id: String,
-        var email_domain: String,
-        var date_created: String,
-        var date_updated: String,
-        var image_url: String,
-        var image_name: String) : Parcelable {
+        var user_id: String?,
+        var nick_name: String?,
+        var fist_name: String?,
+        var last_name: String?,
+        var email_id: String?,
+        var email_domain: String?,
+        var date_created: String?,
+        var date_updated: String?,
+        var image_url: String?,
+        var image_name: String?) : Parcelable {
+
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
             parcel.readString() ?: "",
