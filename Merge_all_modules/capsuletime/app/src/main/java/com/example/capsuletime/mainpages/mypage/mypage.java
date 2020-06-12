@@ -2,6 +2,7 @@ package com.example.capsuletime.mainpages.mypage;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,7 +62,7 @@ public class mypage extends AppCompatActivity {
     protected void onCreate (Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_mypage);
-
+        Log.d(TAG,"FFFF is mypage");
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
         user = intent.getParcelableExtra("user");
@@ -146,12 +149,21 @@ public class mypage extends AppCompatActivity {
                             return true;
 
                         case R.id.capsulemap: {
-                            Intent intent = new Intent(getApplicationContext(), capsulemap.class);
-                            intent.putExtra("user", user);
-                            startActivity(intent);
-                            overridePendingTransition(0, 0);
+                            if (Build.VERSION.SDK_INT >= 23 &&
+                                    ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(mypage.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                        0);
+                                break;
+                            } else if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
 
-                            return true;
+                                Intent intent = new Intent(getApplicationContext(), capsulemap.class);
+                                intent.putExtra("user", user);
+                                startActivity(intent);
+                                overridePendingTransition(0, 0);
+
+                                return true;
+
+                            }
                         }
                         case R.id.capsulear: {
 
@@ -164,90 +176,91 @@ public class mypage extends AppCompatActivity {
                         }
                     }
                 }
+                bottomNavigationView.setSelectedItemId(R.id.mypage);
                 return false;
             }
         });
 
+        String inStr = (user_id != null) ? user_id : user.getUser_id();
+        if (inStr != null)
+            retrofitInterface.requestSearchUserCapsule(inStr).enqueue(new Callback<List<Capsule>>() {
+
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onResponse(Call<List<Capsule>> call, Response<List<Capsule>> response) {
+                    capsuleList = response.body();
+                    Log.d(TAG,capsuleList.toString());
+                    if (capsuleList != null) {
+                        for (Capsule capsule : capsuleList) {
+                            int state_temp = capsule.getStatus_temp();
+                            int capsule_id = capsule.getCapsule_id();
+                            String title = capsule.getTitle() != null ? capsule.getTitle() : "";
+                            String url = capsule.getContent().get(0).getUrl() != null ?
+                                    capsule.getContent().get(0).getUrl() : drawablePath;
+                            String created_date = capsule.getDate_created();
+                            String opened_date = capsule.getDate_created();
+                            String location = "Default";
+                            String d_day = "0";
+                            // UTC Time control
 
 
-        retrofitInterface.requestSearchUserCapsule(user_id).enqueue(new Callback<List<Capsule>>() {
+                            try {
+                                // UTC -> LOCAL TIME
+                                SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                String created_utcDate = capsule.getDate_created();
+                                Date crt_date = getLocalTime(created_utcDate);
 
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onResponse(Call<List<Capsule>> call, Response<List<Capsule>> response) {
-                capsuleList = response.body();
-                //Log.d(TAG,capsuleList.toString());
-                if (capsuleList != null) {
-                    for (Capsule capsule : capsuleList) {
-                        int state_temp = capsule.getStatus_temp();
-                        int capsule_id = capsule.getCapsule_id();
-                        String title = capsule.getTitle() != null ? capsule.getTitle() : "";
-                        String url = capsule.getContent().get(0).getUrl() != null ?
-                                capsule.getContent().get(0).getUrl() : drawablePath;
-                        String created_date = capsule.getDate_created();
-                        String opened_date = capsule.getDate_created();
-                        String location = "Default";
-                        String d_day = "0";
-                        // UTC Time control
+                                String localDate = fm.format(crt_date);
+                                created_date = localDate.substring(0, 4) + "년 " + localDate.substring(5, 7) +
+                                        "월 " + localDate.substring(8, 10) + "일 " + localDate.substring(11, 13) + "시";
 
+                                String opened_utcDate = capsule.getDate_opened();
+                                Date opn_date = getLocalTime(opened_utcDate);
+                                localDate = fm.format(opn_date);
+                                opened_date = localDate.substring(0, 4) + "년 " + localDate.substring(5, 7) +
+                                        "월 " + localDate.substring(8, 10) + "일 " + localDate.substring(11, 13) + "시";
 
-                        try {
-                            // UTC -> LOCAL TIME
-                            SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            String created_utcDate = capsule.getDate_created();
-                            Date crt_date = getLocalTime(created_utcDate);
+                                Date date = new Date();
 
-                            String localDate = fm.format(crt_date);
-                            created_date = localDate.substring(0, 4) + "년 " + localDate.substring(5, 7) +
-                                    "월 " + localDate.substring(8, 10) + "일 " + localDate.substring(11, 13) + "시";
+                                long diff = date.getTime() - opn_date.getTime();
+                                d_day = "D - " + Long.toString( diff/ (1000 * 60 * 60 * 24) );
 
-                            String opened_utcDate = capsule.getDate_opened();
-                            Date opn_date = getLocalTime(opened_utcDate);
-                            localDate = fm.format(opn_date);
-                            opened_date = localDate.substring(0, 4) + "년 " + localDate.substring(5, 7) +
-                                    "월 " + localDate.substring(8, 10) + "일 " + localDate.substring(11, 13) + "시";
-
-                            Date date = new Date();
-
-                            long diff = date.getTime() - opn_date.getTime();
-                            d_day = "D - " + Long.toString( diff/ (1000 * 60 * 60 * 24) );
-
-                            //Log.d(TAG,created_date);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            Log.d(TAG, "asdasd");
-                        }
-
-                        try {
-                            List<Address> list = geocoder.getFromLocation(capsule.getLat(), capsule.getLng(), 3);
-                            if (list != null) {
-                                if (list.size() == 0){
-                                    // no
-                                } else {
-                                    location = list.get(0).getAddressLine(0);
-                                    Log.d(TAG, "location good");
-                                }
+                                //Log.d(TAG,created_date);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                                Log.d(TAG, "asdasd");
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
+
+                            try {
+                                List<Address> list = geocoder.getFromLocation(capsule.getLat(), capsule.getLng(), 3);
+                                if (list != null) {
+                                    if (list.size() == 0){
+                                        // no
+                                    } else {
+                                        location = list.get(0).getAddressLine(0);
+                                        Log.d(TAG, "location good");
+                                    }
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            Log.d(TAG,url+" "+title+" "+created_date+" "+opened_date+" "+location+" "+state_temp);
+
+                            CapsuleLogData capsuleLogData = new CapsuleLogData(capsule_id, d_day,
+                                    url, title, "#절친 #평생친구", created_date,
+                                    opened_date, location, state_temp);
+                            arrayList.add(capsuleLogData);
+                            capsuleLogAdapter.notifyDataSetChanged(); // redirect
                         }
-
-                        Log.d(TAG,url+" "+title+" "+created_date+" "+opened_date+" "+location+" "+state_temp);
-
-                        CapsuleLogData capsuleLogData = new CapsuleLogData(capsule_id, d_day,
-                                url, title, "#절친 #평생친구", created_date,
-                                opened_date, location, state_temp);
-                        arrayList.add(capsuleLogData);
-                        capsuleLogAdapter.notifyDataSetChanged(); // redirect
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<Capsule>> call, Throwable t) {
-                Log.d(TAG, "fail");
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Capsule>> call, Throwable t) {
+                    Log.d(TAG, "fail");
+                }
+            });
     }
     private Date getLocalTime(String time) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");

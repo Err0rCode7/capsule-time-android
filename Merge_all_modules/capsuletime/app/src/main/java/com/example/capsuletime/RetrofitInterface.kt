@@ -64,4 +64,13 @@ interface RetrofitInterface {
     fun requestUserData (
             @Path("user_id") user_id: String
     ): Call<User>
+
+    @GET("/users/{user_id}")
+    fun requestSearchUser(
+            @Path("user_id") user_id: String
+    ):Call <User>
+
+    @GET("/capsules/")
+    fun requestAllCapsules():Call <List<cap>>
+
 }

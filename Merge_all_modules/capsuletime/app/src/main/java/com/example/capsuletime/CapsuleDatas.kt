@@ -91,3 +91,16 @@ data class User(
     }
 }
 
+data class cap (
+        var capsule_id: Int,
+        var user_id: String,
+        var title: String,
+        var likes: Int,
+        var views: Int,
+        var date_created: String,
+        var date_opened: String,
+        var status_temp: Int,
+        var lat: Double,
+        var lng: Double
+)
+

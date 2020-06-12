@@ -36,7 +36,10 @@
         <activity android:name=".mainpages.mypage.mypage" />
         <activity android:name=".mainpages.capsulemap.capsulemap" />
         <activity android:name=".mainpages.ar.ar_main" />
-
+        <activity
+            android:name=".mainpages.capsulemap.PopUpActivity"
+            android:theme="@style/popupTheme"
+            android:screenOrientation="portrait"/>
         <provider
             android:authorities="com.example.capsuletime"
             android:name="androidx.core.content.FileProvider"
@@ -49,6 +52,11 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAGrJkq5uUVt6HCkO7FfBqj-M1nUlS1Omk" />
+
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
     </application>
 
 </manifest>
