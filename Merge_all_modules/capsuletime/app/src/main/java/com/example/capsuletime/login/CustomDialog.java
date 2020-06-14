@@ -22,11 +22,11 @@ public class CustomDialog {
     public void callFunction() {
 
         final Dialog dlg = new Dialog(context);
-        // 배경 투명
+        // login_bg 투명
         //dlg.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        // 배경 투명
+        // login_bg 투명
         //dlg.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        // 배경 없애기
+        // login_bg 없애기
         //dlg.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
         dlg.getWindow().setGravity(Gravity.BOTTOM);

@@ -4,86 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFAAB4ED"
+    android:background="@drawable/login_bg"
     tools:context=".login.login">
 
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="42dp"
-        android:background="@drawable/ripple"
-        android:text="Sign In"
-        app:layout_constraintBottom_toTopOf="@+id/SignUp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/et_nick_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:ems="10"
-        android:hint="Id"
-        android:inputType="textPersonName"
-        android:background="@drawable/radius_text"
-        app:layout_constraintBottom_toTopOf="@+id/editText2"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="302dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginRight="38dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_sign_up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.595" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="137dp"
-        android:ems="10"
-        android:hint="Password"
-        android:background="@drawable/radius_text"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/btn_sign_in"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="95dp"
+            android:layout_height="89dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/et_id"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/SignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginLeft="184dp"
-        android:layout_marginEnd="183dp"
-        android:layout_marginRight="183dp"
-        android:layout_marginBottom="59dp"
-        android:textColor="#90000000"
-        android:text="SingUp"
-        android:bufferType="spannable"
+        <EditText
+            android:id="@+id/et_id"
+            android:layout_width="170dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="41dp"
+            android:layout_marginRight="41dp"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:hint="ID"
+            android:inputType="text"
+            android:textColor="#745656"
+            android:textColorHint="#AF745656"
+            app:layout_constraintBottom_toTopOf="@+id/et_pw"
+            app:layout_constraintEnd_toStartOf="@+id/btn_sign_in"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_pw"
+            android:layout_width="170dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="2dp"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:hint="PASSWORD"
+            android:inputType="textPassword"
+            android:textColor="#745656"
+            android:textColorHint="#AF745656"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_id" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btn_sign_up"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="122dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginLeft="260dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginBottom="146dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="SingUp" />
-
-    <TextView
-        android:id="@+id/tv_title_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="97dp"
-        android:layout_marginLeft="97dp"
-        android:layout_marginTop="132dp"
-        android:layout_marginEnd="98dp"
-        android:layout_marginRight="98dp"
-        android:layout_marginBottom="76dp"
-        android:fontFamily="@font/architects_daughter"
-        android:text="Capsule Time"
-        android:textColor="#000000"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/et_nick_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,6 +58,7 @@ public class mypage extends AppCompatActivity {
     private List<Capsule> capsuleList;
     private String drawablePath;
     private User user;
+
     @Override
     protected void onCreate (Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -189,7 +190,6 @@ public class mypage extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<List<Capsule>> call, Response<List<Capsule>> response) {
                     capsuleList = response.body();
-                    Log.d(TAG,capsuleList.toString());
                     if (capsuleList != null) {
                         for (Capsule capsule : capsuleList) {
                             int state_temp = capsule.getStatus_temp();

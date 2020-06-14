@@ -145,7 +145,14 @@ public class SignUp2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if(et_nick.getText().length() == 0 || et_first.getText().length() == 0 || et_last.getText().length() == 0) {
+                    Toast.makeText(v.getContext(), "빈칸을 다 입력해주세요.",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if (cropUri != null && !cropUri.equals(Uri.EMPTY)) {
+
+
 
                     RequestBody user_id = RequestBody.create(MediaType.parse("text/plain"), id);
                     RequestBody password = RequestBody.create(MediaType.parse("text/plain"), pw);
@@ -174,7 +181,7 @@ public class SignUp2 extends AppCompatActivity {
 
                                         startActivity(intent);
                                     } else {
-                                        Toast toast = Toast.makeText(getApplicationContext(), "회원가입 시도 실패", Toast.LENGTH_SHORT);
+                                        Toast toast = Toast.makeText(getApplicationContext(), "login_signup_btn 시도 실패", Toast.LENGTH_SHORT);
                                         toast.show();
                                     }
                                 }
@@ -199,7 +206,7 @@ public class SignUp2 extends AppCompatActivity {
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                     } else {
-                                        Toast toast = Toast.makeText(getApplicationContext(), "회원가입 시도 실패", Toast.LENGTH_SHORT);
+                                        Toast toast = Toast.makeText(getApplicationContext(), "login_signup_btn 시도 실패", Toast.LENGTH_SHORT);
                                         toast.show();
                                     }
                                 }

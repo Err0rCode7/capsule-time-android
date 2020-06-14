@@ -20,8 +20,8 @@ public class SignUp1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up1);
 
-        Intent intent = getIntent();
-        String idStr = intent.getStringExtra("id"); // 보내는 곳과 받는 곳의 name을 맞춤
+        //Intent intent = getIntent();
+        //String idStr = intent.getStringExtra("id"); // 보내는 곳과 받는 곳의 name을 맞춤
 
 
         final TextView tv_id = findViewById(R.id.tv_id);

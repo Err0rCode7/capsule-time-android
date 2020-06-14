@@ -39,7 +39,8 @@ public class login extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private EditText idText;
     private EditText pwText;
-    private Button button;
+    private Button btn_sign_in;
+    private Button btn_sign_up;
     private TextView signUp;
     private String temp;
 
@@ -52,13 +53,13 @@ public class login extends AppCompatActivity {
 
         retrofitInterface = retrofit_Client.retrofitInterface;
 
-        idText = findViewById(R.id.et_nick_name);
-        pwText = findViewById(R.id.editText2);
-        button = findViewById(R.id.button);
+        idText = findViewById(R.id.et_id);
+        pwText = findViewById(R.id.et_pw);
+        btn_sign_in = findViewById(R.id.btn_sign_in);
+        btn_sign_up = findViewById(R.id.btn_sign_up);
 
 
-
-        button.setOnClickListener(new Button.OnClickListener() {
+        btn_sign_in.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v){
                 final String id = idText.getText().toString();
@@ -96,7 +97,18 @@ public class login extends AppCompatActivity {
 
 
         });
+
+        btn_sign_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(login.this, SignUp1.class ); //(현재액티비티, 이동할액티비티)
+                //intent.putExtra("id", temp); // 인텐트 값을 전달
+                startActivity(intent); // 액티비티 이동
+            }
+        });
+        /*
         signUp = findViewById(R.id.SignUp);
+
         Spannable span = (Spannable)signUp.getText();
         ForegroundColorSpan foregroundSpan = new ForegroundColorSpan(Color.GRAY);
         span.setSpan(foregroundSpan, 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -107,7 +119,6 @@ public class login extends AppCompatActivity {
                 intent.putExtra("id", temp); // 인텐트 값을 전달
                 startActivity(intent); // 액티비티 이동
             }
-
             @Override
             public void updateDrawState(final TextPaint textPaint) { // 색 정의
                 textPaint.setColor(login.this.getResources().getColor(R.color.gray));
@@ -116,6 +127,6 @@ public class login extends AppCompatActivity {
 
         },0,6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         signUp.setMovementMethod(LinkMovementMethod.getInstance());
-
+    */
     }
 }

@@ -5,14 +5,14 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#11000000">
+    android:background="#FFFFFFFF">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/gallery"
         android:layout_width="match_parent"
         android:layout_height="62dp"
         android:layout_marginBottom="1dp"
-        android:background="#1F000000"
+        android:background="#FF624D4D"
         android:clickable="true"
         app:layout_constraintBottom_toTopOf="@+id/camera"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +43,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="Photos"
-            android:textColor="#FF000000"
+            android:textColor="#FFFFFFFF"
             android:textSize="24sp"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -55,7 +55,7 @@
         android:id="@+id/camera"
         android:layout_width="match_parent"
         android:layout_height="62dp"
-        android:background="#1F000000"
+        android:background="#FF624D4D"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +85,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="Camera"
-            android:textColor="#FF000000"
+            android:textColor="#FFFFFFFF"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_camera"

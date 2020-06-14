@@ -5,7 +5,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFAAB4ED"
     tools:context=".mainpages.capsulemap.capsulemap">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,15 +30,15 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@drawable/nav_selector"
+        android:id="@+id/bottom_nav"
         app:itemTextColor="@drawable/nav_selector"
+        app:itemIconTint="@drawable/nav_selector"
+        android:background="@drawable/nav_border"
+        app:menu="@menu/menu_nav"
+        android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_nav" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
