@@ -15,10 +15,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="6dp"
-        android:clickable="true"
-        tools:ignore="MissingConstraints">
+        android:clickable="true" >
 
         <ImageView
             android:id="@+id/iv_pager"

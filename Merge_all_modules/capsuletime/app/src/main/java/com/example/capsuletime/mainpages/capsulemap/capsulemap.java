@@ -17,7 +17,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -68,6 +67,7 @@ public class capsulemap extends AppCompatActivity implements OnMapReadyCallback,
     private double cur_lat;
     private Marker curMarker;
     private boolean firstFlag = false;
+    private List<Integer> capsuleMarkerImageIdList;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -84,6 +84,8 @@ public class capsulemap extends AppCompatActivity implements OnMapReadyCallback,
                 .setDeniedMessage("거부하셨습니다.")
                 .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
+
+        initCapsuleMarkerImageIdList();
 
         RetrofitClient retrofitClient = new RetrofitClient();
         retrofitInterface = retrofitClient.retrofitInterface;
@@ -224,7 +226,7 @@ public class capsulemap extends AppCompatActivity implements OnMapReadyCallback,
         markerOptions2.title("user");
         BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.cur_user);
         Bitmap b = bitmapdraw.getBitmap();
-        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 80, 80, false);
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 50, 50, false);
         markerOptions2.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
@@ -275,8 +277,12 @@ public class capsulemap extends AppCompatActivity implements OnMapReadyCallback,
 
         List<cap> capsules = capsuleList;
         Log.i(TAG, "캡슐 정보 " + capsules);
+        int idCount = 0;
         for (int i = 0; i < capsules.size(); i++) {
             Log.i(TAG, "start() ");
+            if (capsules.get(i).getStatus_temp() == 1 ){
+                continue;
+            }
 
             LatLng latLng = new LatLng(capsules.get(i).getLat(), capsules.get(i).getLng());
 
@@ -288,12 +294,18 @@ public class capsulemap extends AppCompatActivity implements OnMapReadyCallback,
             //markerOptions.snippet(capsules.get(i).getCapsule_id());
 
             Log.d(TAG, markerOptions.getTitle());
-            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.capsule_marker);
+
+
+            if(capsuleMarkerImageIdList.size() <= idCount)
+                idCount = 0;
+
+            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(capsuleMarkerImageIdList.get(idCount));
             Bitmap b = bitmapdraw.getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(b, 80, 80, false);
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
             Marker marker = mMap.addMarker(markerOptions);
 
+            idCount++;
         }
         mMap.setOnMarkerClickListener(this);
         //OnclickMarker();
@@ -333,5 +345,20 @@ public class capsulemap extends AppCompatActivity implements OnMapReadyCallback,
             return false;
         }
 
+    }
+
+    public void initCapsuleMarkerImageIdList() {
+        capsuleMarkerImageIdList = new ArrayList<>();
+
+        capsuleMarkerImageIdList.add(R.drawable.capsule_marker_angry);
+        capsuleMarkerImageIdList.add(R.drawable.capsule_marker_blue);
+        capsuleMarkerImageIdList.add(R.drawable.capsule_marker_gray);
+        capsuleMarkerImageIdList.add(R.drawable.capsule_marker_green);
+        capsuleMarkerImageIdList.add(R.drawable.capsule_marker_mustard);
+        capsuleMarkerImageIdList.add(R.drawable.capsule_marker_pupple);
+        capsuleMarkerImageIdList.add(R.drawable.capsule_marker_rainbow);
+        capsuleMarkerImageIdList.add(R.drawable.capsule_marker_red);
+        capsuleMarkerImageIdList.add(R.drawable.capsule_marker_stone);
+        capsuleMarkerImageIdList.add(R.drawable.capsule_marker_yellow);
     }
 }

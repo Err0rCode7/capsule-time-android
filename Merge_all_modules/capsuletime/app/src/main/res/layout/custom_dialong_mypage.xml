@@ -30,7 +30,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/gallery"
+            app:srcCompat="@drawable/gallery_dialog"
 
             tools:ignore="VectorDrawableCompat" />
 
@@ -43,7 +43,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="Photos"
-            android:textColor="#FF000000"
+            android:textColor="#FF404040"
             android:textSize="24sp"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -85,7 +85,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="Camera"
-            android:textColor="#FF000000"
+            android:textColor="#FF404040"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_camera"

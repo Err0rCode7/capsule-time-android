@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.capsuletime.Capsule;
 import com.example.capsuletime.CapsuleLogData;
+import com.example.capsuletime.Content;
 import com.example.capsuletime.R;
 import com.example.capsuletime.RetrofitClient;
 import com.example.capsuletime.RetrofitInterface;
@@ -197,10 +198,12 @@ public class mypage extends AppCompatActivity {
                             String title = capsule.getTitle() != null ? capsule.getTitle() : "";
                             String url = capsule.getContent().get(0).getUrl() != null ?
                                     capsule.getContent().get(0).getUrl() : drawablePath;
+                            List<Content> contentList = capsule.getContent();
                             String created_date = capsule.getDate_created();
                             String opened_date = capsule.getDate_created();
                             String location = "Default";
                             String d_day = "0";
+                            String text = capsule.getText();
                             // UTC Time control
 
 
@@ -247,9 +250,9 @@ public class mypage extends AppCompatActivity {
 
                             Log.d(TAG,url+" "+title+" "+created_date+" "+opened_date+" "+location+" "+state_temp);
 
-                            CapsuleLogData capsuleLogData = new CapsuleLogData(capsule_id, d_day,
-                                    url, title, "#절친 #평생친구", created_date,
-                                    opened_date, location, state_temp);
+                            CapsuleLogData capsuleLogData = new CapsuleLogData(inStr, capsule_id, d_day,
+                                    url, title, text, "#절친 #평생친구", created_date,
+                                    opened_date, location, state_temp, contentList);
                             arrayList.add(capsuleLogData);
                             capsuleLogAdapter.notifyDataSetChanged(); // redirect
                         }

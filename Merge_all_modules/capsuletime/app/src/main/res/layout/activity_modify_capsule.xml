@@ -3,145 +3,162 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFAAB4ED">
+    android:background="@drawable/modify_capsule_bg">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/const_vp"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cl_main"
+        tools:layout_editor_absoluteY="46dp" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="135dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout7"
+        app:tabBackground="@drawable/tab_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout7"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#304284f4"
-        tools:layout_editor_absoluteX="-103dp"
-        tools:layout_editor_absoluteY="151dp">
+        android:layout_height="46dp"
+        android:background="#8F000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="116dp"
+            android:layout_marginLeft="116dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="116dp"
+            android:layout_marginRight="116dp"
+            android:layout_marginBottom="10dp"
+            android:text="캡슐 생성"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_set"
+            app:layout_constraintStart_toEndOf="@+id/btn_delete"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/const_vp"
-            android:layout_width="400dp"
-            android:layout_height="300dp"
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="82dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-
-            app:layout_constraintBottom_toTopOf="@+id/tab_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            android:background="@android:color/transparent"
+            android:text="취소"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_back" />
-
-
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="370dp"
-            android:layout_marginRight="370dp"
-            android:clickable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/back_arrow" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tv_location"
-            android:layout_width="297dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="58dp"
-            android:layout_marginLeft="58dp"
-            android:layout_marginEnd="58dp"
-            android:layout_marginRight="58dp"
-            android:layout_marginBottom="12dp"
-            android:text="text"
-            app:layout_constraintBottom_toTopOf="@+id/tvl_tag"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tv_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Text" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tvl_tag"
-            android:layout_width="297dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="58dp"
-            android:layout_marginLeft="58dp"
-            android:layout_marginEnd="58dp"
-            android:layout_marginRight="58dp"
-            android:layout_marginBottom="15dp"
-            android:text="tags"
-            app:layout_constraintBottom_toTopOf="@+id/btn_set"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tv_tag"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="tag" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="59dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_location"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/const_vp"
-            app:tabBackground="@drawable/tab_selector"
-            app:tabIndicatorHeight="0dp"
-            app:tabGravity="center"
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tvl_title"
-            android:layout_width="234dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="88dp"
-            android:layout_marginLeft="88dp"
-            android:layout_marginEnd="89dp"
-            android:layout_marginRight="89dp"
-            android:text="Title"
-            app:layout_constraintBottom_toTopOf="@+id/const_vp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_back">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Title"
-                android:textSize="24sp" />
-        </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btn_set"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="161dp"
-            android:layout_marginLeft="161dp"
-            android:layout_marginEnd="162dp"
-            android:layout_marginRight="162dp"
-            android:layout_marginBottom="25dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/transparent"
             android:text="완료"
+            android:textColor="#AF0027FF"
+            android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout8"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/const_vp">
+
+        <EditText
+            android:id="@+id/tv_title"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp"
+            android:background="@android:color/transparent"
+            android:hint="Title"
+            android:inputType="text"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="#4F000000"
+            android:textSize="8pt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/tv_tag"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp"
+            android:background="@android:color/transparent"
+            android:hint="Tags"
+            android:inputType="text"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="#4F000000"
+            android:textSize="8pt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+        <EditText
+            android:id="@+id/tv_text"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp"
+            android:background="@android:color/transparent"
+            android:hint="Text"
+            android:inputType="textMultiLine"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="#4F000000"
+            android:textSize="8pt"
+            android:lines="6"
+            android:maxLines="6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_tag" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

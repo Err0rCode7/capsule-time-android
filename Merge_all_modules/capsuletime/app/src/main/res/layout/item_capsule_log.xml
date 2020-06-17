@@ -3,132 +3,119 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_capsule_frame"
+    android:background="@android:color/transparent"
     android:layout_width="match_parent"
-    android:layout_height="90dp">
+    android:layout_height="80dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_capsule"
-        android:layout_width="380dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/radius_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_capsule"
+            android:layout_width="320dp"
+            android:layout_height="68dp"
+            android:layout_marginTop="7.5dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginBottom="5dp"
+
+            android:background="@drawable/radius_capsule_log">
+
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="60dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="3dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="title"
+                android:textColor="#404040"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="191dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="36dp"
+                android:layout_marginRight="36dp"
+                android:layout_marginBottom="12dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="location"
+                android:textSize="5pt"
+                android:textColor="#404040"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+            <TextView
+                android:id="@+id/tv_d_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="44dp"
+                android:layout_marginRight="44dp"
+                android:layout_marginBottom="8dp"
+                android:text="d_day"
+                android:textSize="9pt"
+                android:textColor="#404040"
+                app:layout_constraintBottom_toTopOf="@+id/tv_location"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_location"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/location" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/iv_thumb_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="26dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="13dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:layout_marginBottom="10dp"
-            android:shape="ring"
             android:background="@android:color/transparent"
+            android:shape="ring"
             app:cardBackgroundColor="@android:color/transparent"
-            app:cardPreventCornerOverlap="true"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="50dp"
             app:cardElevation="0dp"
-            app:contentPadding="0dp"
+            app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvl_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:contentPadding="0dp">
 
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_thumb"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/test_airplane" />
+                    android:id="@+id/iv_thumb"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/capsule_marker_stone" />
 
-        </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
+    </FrameLayout>
 
-        <TextView
-            android:id="@+id/tvl_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="8dp"
-
-            android:text="title"
-            app:layout_constraintStart_toEndOf="@+id/iv_thumb_card"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_tags"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginBottom="5dp"
-            android:text="tags"
-            app:layout_constraintBottom_toTopOf="@+id/imageView"
-            app:layout_constraintStart_toEndOf="@+id/iv_thumb_card"
-            app:layout_constraintTop_toBottomOf="@+id/tvl_title"
-            app:layout_constraintVertical_bias="0.733" />
-
-        <TextView
-            android:id="@+id/tv_location"
-            android:layout_width="191dp"
-            android:layout_height="17dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="72dp"
-            android:layout_marginRight="72dp"
-            android:layout_marginBottom="5dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="location"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/tv_opened_date" />
-
-        <TextView
-            android:id="@+id/tv_opened_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="36dp"
-            android:layout_marginRight="36dp"
-            android:text="opened date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_created_date" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="114dp"
-            android:layout_marginLeft="114dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tv_location"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_tags"
-            app:srcCompat="@drawable/location" />
-
-        <TextView
-            android:id="@+id/tv_created_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="36dp"
-            android:layout_marginRight="36dp"
-            android:text="created date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

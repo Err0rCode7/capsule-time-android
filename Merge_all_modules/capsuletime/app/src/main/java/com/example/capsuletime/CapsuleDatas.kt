@@ -18,6 +18,7 @@ data class Capsule (
         val capsule_id: Int,
         val user_id: String,
         val title: String,
+        val text: String?,
         val likes: Int,
         val views: Int,
         val date_created: String,
@@ -25,25 +26,28 @@ data class Capsule (
         val status_temp: Int,
         val lat: Double,
         val lng: Double,
-        val content: List<Content>
+        val content: List<Content>?
 )
 
 data class CapsuleLogData (
+        val user_id: String,
         val capsule_id: Int,
         val d_day: String,
         val iv_url: String,
         val tv_title: String,
+        val tv_text: String?,
         val tv_tags: String,
         val tv_created_date: String,
         val tv_opened_date: String,
         val tv_location: String,
-        val state_temp: Int
+        val state_temp: Int,
+        val contentList: List<Content>?
 )
 
 data class User(
         var user_id: String?,
         var nick_name: String?,
-        var fist_name: String?,
+        var first_name: String?,
         var last_name: String?,
         var email_id: String?,
         var email_domain: String?,
@@ -68,7 +72,7 @@ data class User(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(user_id)
         parcel.writeString(nick_name)
-        parcel.writeString(fist_name)
+        parcel.writeString(first_name)
         parcel.writeString(last_name)
         parcel.writeString(email_id)
         parcel.writeString(email_domain)

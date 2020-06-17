@@ -152,8 +152,6 @@ public class SignUp2 extends AppCompatActivity {
 
                 if (cropUri != null && !cropUri.equals(Uri.EMPTY)) {
 
-
-
                     RequestBody user_id = RequestBody.create(MediaType.parse("text/plain"), id);
                     RequestBody password = RequestBody.create(MediaType.parse("text/plain"), pw);
                     RequestBody nick_name = RequestBody.create(MediaType.parse("text/plain"), et_nick.getText().toString());
@@ -391,7 +389,6 @@ public class SignUp2 extends AppCompatActivity {
                 Glide
                         .with(this)
                         .load(cropUri)
-                        .override(100, 100)
                         .into(imageView);
             }
             break;

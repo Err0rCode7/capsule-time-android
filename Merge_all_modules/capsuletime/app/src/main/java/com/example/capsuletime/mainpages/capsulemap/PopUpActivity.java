@@ -2,6 +2,8 @@ package com.example.capsuletime.mainpages.capsulemap;
 
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
@@ -26,19 +28,20 @@ public class PopUpActivity extends AppCompatActivity {
     private User user;
     private static final String TAG = "Mypage";
     private String user_id;
-    private  String imageUrl;
-
+    private String imageUrl;
+    private String firstName;
+    private String lastName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 상태바 제거 ( 전체화면 모드 )
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setContentView(R.layout.custom_infowindow);
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
-
 
         search();
     }
@@ -89,9 +92,11 @@ public class PopUpActivity extends AppCompatActivity {
         }
 
 
-        TextView textView = (TextView)findViewById(R.id.nameTxt);
-        textView.setText(user.getUser_id());
-
+        TextView tv_user_id = (TextView)findViewById(R.id.tv_user_id);
+        TextView tv_name = (TextView)findViewById(R.id.tv_name);
+        tv_user_id.setText(user.getUser_id());
+        String name = user.getLast_name() + user.getFirst_name();
+        tv_name.setText(name);
 
 
     }

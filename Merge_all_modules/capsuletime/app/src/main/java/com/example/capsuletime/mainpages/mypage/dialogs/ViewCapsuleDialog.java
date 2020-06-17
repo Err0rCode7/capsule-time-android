@@ -5,12 +5,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.capsuletime.CapsuleLogData;
 import com.example.capsuletime.mainpages.mypage.CapsuleLogAdapter;
 
@@ -18,6 +21,12 @@ import com.example.capsuletime.R;
 import com.example.capsuletime.RetrofitClient;
 import com.example.capsuletime.RetrofitInterface;
 import com.example.capsuletime.Success;
+import com.example.capsuletime.mainpages.mypage.ViewPagerAdapter;
+import com.example.capsuletime.mainpages.mypage.ViewPagerAdapterOnlyView;
+import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +37,7 @@ public class ViewCapsuleDialog {
     private CapsuleLogData capsuleLogData;
     private RetrofitInterface retrofitInterface;
     private CapsuleLogAdapter capsuleLogAdapter;
+    private List<Uri> listUri;
     private int position;
 
     public ViewCapsuleDialog (Context context, CapsuleLogData capsuleLogData, CapsuleLogAdapter capsuleLogAdapter, int position){
@@ -47,18 +57,39 @@ public class ViewCapsuleDialog {
         RetrofitClient retrofitClient = new RetrofitClient();
         retrofitInterface = retrofitClient.retrofitInterface;
 
-        TextView tv_title = (TextView) dlg.findViewById(R.id.tvl_title);
+        TextView tv_title = (TextView) dlg.findViewById(R.id.tv_title);
         TextView tv_location = (TextView) dlg.findViewById(R.id.tv_location);
-        TextView tv_created_date = (TextView) dlg.findViewById(R.id.tv_created_date);
-        TextView tv_d_date = (TextView) dlg.findViewById(R.id.tv_d_day);
-        ImageView iv_thumb = (ImageView) dlg.findViewById(R.id.iv_thumb);
-        ImageView iv_delete = (ImageView) dlg.findViewById(R.id.iv_back);
+        TextView tv_text = (TextView) dlg.findViewById(R.id.tv_text);
+        TextView tv_d_day = (TextView) dlg.findViewById(R.id.tv_d_day);
+        ImageView iv_delete = (ImageView) dlg.findViewById(R.id.btn_delete);
+
+        ViewPager viewPager = (ViewPager) dlg.findViewById(R.id.const_vp);
+        TabLayout tabLayout = (TabLayout) dlg.findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
+
+        listUri = new ArrayList<>();
+
+        if (capsuleLogData.getContentList() != null){
+            Log.d("list", capsuleLogData.getContentList().toString());
+            for(int i = 0; i < capsuleLogData.getContentList().size(); i++){
+                Uri uri = Uri.parse(capsuleLogData.getContentList().get(i).getUrl());
+                listUri.add(uri);
+            }
+        } else {
+            String drawablePath = "res:///" + R.drawable.capsule_temp;
+            Uri uri = Uri.parse(drawablePath);
+            listUri.add(uri);
+        }
+
+        ViewPagerAdapterOnlyView viewPagerAdapterOnlyView = new ViewPagerAdapterOnlyView(context,listUri, 0, tabLayout);
+        viewPager.setAdapter(viewPagerAdapterOnlyView);
 
         tv_title.setText(capsuleLogData.getTv_title());
         tv_location.setText(capsuleLogData.getTv_location());
-        tv_created_date.setText(capsuleLogData.getTv_created_date());
-        tv_d_date.setText(capsuleLogData.getD_day());
+        tv_text.setText(capsuleLogData.getTv_text() != null ? capsuleLogData.getTv_text() : "");
+        tv_d_day.setText(capsuleLogData.getD_day());
 
+        /*
         if (capsuleLogData.getIv_url() != null) {
             Glide
                     .with(context)
@@ -67,6 +98,7 @@ public class ViewCapsuleDialog {
                     //.override(50,50)
                     .into(iv_thumb);
         }
+         */
 
         iv_delete.setOnClickListener(new View.OnClickListener() {
             @Override

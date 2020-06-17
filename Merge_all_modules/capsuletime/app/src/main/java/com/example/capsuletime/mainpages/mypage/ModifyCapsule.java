@@ -1,14 +1,11 @@
 package com.example.capsuletime.mainpages.mypage;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ClipData;
-import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,7 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,7 +36,6 @@ import com.example.capsuletime.RetrofitClient;
 import com.example.capsuletime.RetrofitInterface;
 import com.example.capsuletime.Success;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.textfield.TextInputEditText;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -75,7 +71,7 @@ public class ModifyCapsule extends AppCompatActivity {
     private TabLayout tabLayout;
     private RetrofitInterface retrofitInterface;
     private String imageFilePath;
-
+    private String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,16 +92,17 @@ public class ModifyCapsule extends AppCompatActivity {
 
         Intent intent = getIntent();
         capsule_id = intent.getIntExtra("capsule_id",-1);
+        user_id = intent.getStringExtra("user_id");
         /*
         list.add("http://118.44.168.218:7070/contents/1.jpeg");
         list.add("http://118.44.168.218:7070/contents/2.jpeg");
         list.add("http://118.44.168.218:7070/contents/1.mp4");
         */
-        ImageView imageView = (ImageView)findViewById(R.id.iv_back);
-        Button button = (Button)findViewById(R.id.btn_set);
-        TextInputEditText tv_title = (TextInputEditText)findViewById(R.id.tv_title);
-        TextInputEditText tv_text = (TextInputEditText)findViewById(R.id.tv_text);
-        TextInputEditText tv_tag = (TextInputEditText)findViewById(R.id.tv_tag);
+        Button btn_cancel = (Button) findViewById(R.id.btn_delete);
+        Button btn_set = (Button)findViewById(R.id.btn_set);
+        EditText tv_title = (EditText)findViewById(R.id.tv_title);
+        EditText tv_text = (EditText)findViewById(R.id.tv_text);
+        EditText tv_tag = (EditText)findViewById(R.id.tv_tag);
 
         viewPager = (ViewPager)findViewById(R.id.const_vp);
         tabLayout = (TabLayout)findViewById(R.id.tab_layout);
@@ -125,18 +122,16 @@ public class ModifyCapsule extends AppCompatActivity {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, list, 1, tabLayout);
         viewPager.setAdapter(viewPagerAdapter);
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
+        btn_set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 
                 // 이미지 등록
                 String title = Objects.requireNonNull(tv_title.getText()).toString(); // null -> ""
@@ -188,7 +183,7 @@ public class ModifyCapsule extends AppCompatActivity {
                             Intent intent = new Intent(ModifyCapsule.this, mypage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
+                            intent.putExtra("user_id",user_id);
                             startActivity(intent);
 
                         }

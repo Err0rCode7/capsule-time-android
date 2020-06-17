@@ -2,7 +2,6 @@ package com.example.capsuletime.mainpages.mypage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -69,14 +67,15 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .into(((CapsuleViewHolder) holder).iv_thumb);
             //holder.iv_thumb.setImageResource(arrayList.get(position).getIv_thumb());
             ((CapsuleViewHolder) holder).tv_title.setText(arrayList.get(position).getTv_title());
-            ((CapsuleViewHolder) holder).tv_tags.setText(arrayList.get(position).getTv_tags());
+            //((CapsuleViewHolder) holder).tv_tags.setText(arrayList.get(position).getTv_tags());
+            ((CapsuleViewHolder) holder).tv_d_day.setText(arrayList.get(position).getD_day());
             ((CapsuleViewHolder) holder).tv_location.setText(arrayList.get(position).getTv_location());
-            ((CapsuleViewHolder) holder).tv_opened_date.setText(arrayList.get(position).getTv_opened_date());
-            ((CapsuleViewHolder) holder).tv_created_date.setText(arrayList.get(position).getTv_created_date());
+            //((CapsuleViewHolder) holder).tv_opened_date.setText(arrayList.get(position).getTv_opened_date());
+            //((CapsuleViewHolder) holder).tv_created_date.setText(arrayList.get(position).getTv_created_date());
 
             ((CapsuleViewHolder) holder).cl_capsule.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
 
-            //((CapsuleViewHolder) holder).cl_capsule.setBackground(ContextCompat.getDrawable(context,R.drawable.radius_blue));
+            //((CapsuleViewHolder) holder).cl_capsule.setBackground(ContextCompat.getDrawable(context,R.drawable.radius_capsule_log));
             //((CapsuleViewHolder) holder).cl_capsule.setBackgroundColor(Color.parseColor("#3Fa9c8fd"));
 
             ((CapsuleViewHolder) holder).itemView.setTag(position);
@@ -92,12 +91,12 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         } else {
             ((TempCapsuleViewHolder) holder).tv_location.setText(arrayList.get(position).getTv_location());
-            ((TempCapsuleViewHolder) holder).tv_opened_date.setText(arrayList.get(position).getTv_opened_date());
-            ((TempCapsuleViewHolder) holder).tv_created_date.setText(arrayList.get(position).getTv_created_date());
+            //((TempCapsuleViewHolder) holder).tv_opened_date.setText(arrayList.get(position).getTv_opened_date());
+            //((TempCapsuleViewHolder) holder).tv_created_date.setText(arrayList.get(position).getTv_created_date());
 
             ((TempCapsuleViewHolder) holder).cl_capsule.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
 
-            //((TempCapsuleViewHolder) holder).cl_capsule.setBackground(ContextCompat.getDrawable(context,R.drawable.radius_blue));
+            //((TempCapsuleViewHolder) holder).cl_capsule.setBackground(ContextCompat.getDrawable(context,R.drawable.radius_capsule_log));
 
             /*
             ((TempCapsuleViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
@@ -109,16 +108,15 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             });
             */
-            ((TempCapsuleViewHolder) holder).itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            ((TempCapsuleViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), ModifyCapsule.class);
                     intent.putExtra("capsule_id", arrayList.get(position).getCapsule_id());
+                    intent.putExtra("user_id", arrayList.get(position).getUser_id());
                     v.getContext().startActivity(intent);
 
                     //remove(((TempCapsuleViewHolder) holder).getAdapterPosition());
-
-                    return true;
                 }
             });
         }
@@ -149,21 +147,23 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         protected ImageView iv_thumb;
         protected TextView tv_title;
-        protected TextView tv_tags;
+        //protected TextView tv_tags;
+        protected TextView tv_d_day;
         protected TextView tv_location;
-        protected TextView tv_opened_date;
-        protected TextView tv_created_date;
+        //protected TextView tv_opened_date;
+        //protected TextView tv_created_date;
         protected ConstraintLayout cl_capsule;
 
         public CapsuleViewHolder(@NonNull View itemView) {
             super(itemView);
 
             this.iv_thumb = (ImageView) itemView.findViewById(R.id.iv_thumb);
-            this.tv_title = (TextView) itemView.findViewById(R.id.tvl_title);
-            this.tv_tags = (TextView) itemView.findViewById(R.id.tv_tags);
+            this.tv_title = (TextView) itemView.findViewById(R.id.tv_title);
+            //this.tv_tags = (TextView) itemView.findViewById(R.id.tv_tags);
+            this.tv_d_day = (TextView) itemView.findViewById(R.id.tv_d_day);
             this.tv_location = (TextView) itemView.findViewById(R.id.tv_location);
-            this.tv_opened_date = (TextView) itemView.findViewById(R.id.tv_opened_date);
-            this.tv_created_date = (TextView) itemView.findViewById(R.id.tv_created_date);
+            //this.tv_opened_date = (TextView) itemView.findViewById(R.id.tv_opened_date);
+            //this.tv_created_date = (TextView) itemView.findViewById(R.id.tv_created_date);
             this.cl_capsule = (ConstraintLayout) itemView.findViewById(R.id.cl_capsule);
 
         }
@@ -172,16 +172,16 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public class TempCapsuleViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView tv_location;
-        protected TextView tv_opened_date;
-        protected TextView tv_created_date;
+        //protected TextView tv_opened_date;
+        //protected TextView tv_created_date;
         protected ConstraintLayout cl_capsule;
 
         public TempCapsuleViewHolder(@NonNull View itemView) {
             super(itemView);
 
             this.tv_location = (TextView) itemView.findViewById(R.id.tv_location);
-            this.tv_opened_date = (TextView) itemView.findViewById(R.id.tv_opened_date);
-            this.tv_created_date = (TextView) itemView.findViewById(R.id.tv_created_date);
+            //this.tv_opened_date = (TextView) itemView.findViewById(R.id.tv_opened_date);
+            //this.tv_created_date = (TextView) itemView.findViewById(R.id.tv_created_date);
             this.cl_capsule = (ConstraintLayout) itemView.findViewById(R.id.cl_capsule);
 
         }

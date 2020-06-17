@@ -64,9 +64,9 @@ public class ViewPagerAdapter extends PagerAdapter {
             //Log.d(TAG,file.getAbsolutePath());
             Glide
                     .with(context)
-                    .load(R.drawable.plus)
+                    .load(R.drawable.plus_mini)
                     .into(imageView);
-            imageView.setBackgroundColor(Color.parseColor("#304284f4"));
+            imageView.setBackgroundColor(Color.parseColor("#FFFFFF"));
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
