@@ -12,19 +12,56 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.capsuletime"
         minSdkVersion 16
         targetSdkVersion 29
+        applicationId "com.example.capsuletime"
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86'
+        }
         versionCode 1
-        versionName "1.0"
-
+        versionName '0.1'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
+    aaptOptions {
+        noCompress = ['.unity3d', '.ress', '.resource', '.obb']
+    }
+
+
     buildTypes {
+        debug {
+            minifyEnabled false
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'
+            jniDebuggable true
+        }
+
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    packagingOptions {
+        doNotStrip '*/armeabi-v7a/*.so'
+        doNotStrip '*/x86/*.so'
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+        density {
+            enableSplit = false
+        }
+        abi {
+            enableSplit = true
         }
     }
 
@@ -62,7 +99,17 @@ dependencies {
     // googlemap
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
-}
-repositories {
-    mavenCentral()
+
+    // unity
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //implementation 'com.google.ar:core:1.18.0'
+
+    implementation(name: 'arcore_client', ext:'aar')
+    implementation(name: 'arcore_rendering_utils', ext:'aar')
+    implementation(name: 'arcore_unity', ext:'aar')
+    //implementation(name: 'google_ar_required', ext:'aar')
+    implementation(name: 'unityandroidpermissions', ext:'aar')
+    implementation(name: 'unitygar', ext:'aar')
+
 }

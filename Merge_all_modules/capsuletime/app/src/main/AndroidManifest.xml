@@ -8,6 +8,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature android:glEsVersion="0x00020000" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <uses-feature android:name="android.hardware.location" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen.multitouch" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen.multitouch.distinct" android:required="false" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera2" />
 
@@ -33,9 +39,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".mainpages.mypage.mypage" />
         <activity android:name=".mainpages.capsulemap.capsulemap" />
-        <activity android:name=".mainpages.ar.ar_main" />
+
+        <activity android:name="com.example.capsuletime.mainpages.ar.UnityPlayerActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale|layoutDirection|density"
+            android:hardwareAccelerated="false"
+            android:process=":unityplayer">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
+         </activity>
+
         <activity
             android:name=".mainpages.capsulemap.PopUpActivity"
             android:theme="@style/popupTheme"
@@ -57,6 +77,14 @@
             android:value="AIzaSyAGrJkq5uUVt6HCkO7FfBqj-M1nUlS1Omk" />
 
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
+        <meta-data android:name="unity.tango-enable" android:value="True" />
+        <meta-data android:name="unityplayer.SkipPermissionsDialog" android:value="true" />
+        <meta-data android:name="unity.build-id" android:value="560ec9e6-af93-4bb1-82bf-4f2d35adf891" />
+        <meta-data android:name="unity.splash-mode" android:value="0" />
+        <meta-data android:name="unity.splash-enable" android:value="True" />
+        <meta-data android:name="com.google.ar.core" android:value="optional" />
+
     </application>
 
 </manifest>

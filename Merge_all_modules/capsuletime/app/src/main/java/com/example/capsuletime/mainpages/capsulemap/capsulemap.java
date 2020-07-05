@@ -29,7 +29,8 @@ import com.example.capsuletime.RetrofitClient;
 import com.example.capsuletime.RetrofitInterface;
 import com.example.capsuletime.User;
 import com.example.capsuletime.cap;
-import com.example.capsuletime.mainpages.ar.ar_main;
+import com.example.capsuletime.mainpages.ar.UnityPlayerActivity;
+import com.example.capsuletime.mainpages.ar.UnityPlayerActivity;
 import com.example.capsuletime.mainpages.mypage.mypage;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,6 +44,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.unity3d.player.UnityPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +112,7 @@ public class capsulemap extends AppCompatActivity implements OnMapReadyCallback,
 
         //Set mypage Selected
         bottomNavigationView.setSelectedItemId(R.id.capsulemap);
+        bottomNavigationView.getMenu().getItem(1).setChecked(true);
         bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED);
 
 
@@ -130,11 +133,12 @@ public class capsulemap extends AppCompatActivity implements OnMapReadyCallback,
                         return true;
 
                     case R.id.capsulear: {
-                        Intent intent = new Intent(getApplicationContext(), ar_main.class);
-                        intent.putExtra("user", user);
+
+                        Intent intent = new Intent(getApplicationContext(), UnityPlayerActivity.class);
+                        intent.putExtra("userId", user);
                         startActivity(intent);
                         overridePendingTransition(0,0);
-                        return true;
+                        //return true;
                     }
                 }
                 return false;

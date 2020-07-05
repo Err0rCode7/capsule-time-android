@@ -28,12 +28,13 @@ import com.example.capsuletime.R;
 import com.example.capsuletime.RetrofitClient;
 import com.example.capsuletime.RetrofitInterface;
 import com.example.capsuletime.User;
-import com.example.capsuletime.mainpages.ar.ar_main;
+import com.example.capsuletime.mainpages.ar.UnityPlayerActivity;
 import com.example.capsuletime.mainpages.capsulemap.capsulemap;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class mypage extends AppCompatActivity {
     private List<Capsule> capsuleList;
     private String drawablePath;
     private User user;
+    private int fromArFlag;
 
     @Override
     protected void onCreate (Bundle saveInstanceState) {
@@ -68,6 +70,9 @@ public class mypage extends AppCompatActivity {
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
         user = intent.getParcelableExtra("user");
+        fromArFlag = intent.getIntExtra("fromAr",0);
+        Log.d("Hello","mypage");
+
 
         ImageView iv_user = (ImageView) this.findViewById(R.id.user_image);
         TextView tv_id = (TextView) this.findViewById(R.id.tv_userId);
@@ -138,6 +143,7 @@ public class mypage extends AppCompatActivity {
 
         //Set mypage Selected
         bottomNavigationView.setSelectedItemId(R.id.mypage);
+        bottomNavigationView.getMenu().getItem(0).setChecked(true);
         bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED);
 
         //Perform ItemSelectedListener
@@ -168,13 +174,12 @@ public class mypage extends AppCompatActivity {
                             }
                         }
                         case R.id.capsulear: {
-
-                            Intent intent = new Intent(getApplicationContext(), ar_main.class);
-                            intent.putExtra("user", user);
+                            //bottomNavigationView.getMenu().getItem(0).setChecked(true);
+                            Intent intent = new Intent(getApplicationContext(), UnityPlayerActivity.class);
+                            intent.putExtra("userId", user);
                             startActivity(intent);
                             overridePendingTransition(0, 0);
-
-                            return true;
+                            //return true;
                         }
                     }
                 }
@@ -235,7 +240,12 @@ public class mypage extends AppCompatActivity {
                             }
 
                             try {
-                                List<Address> list = geocoder.getFromLocation(capsule.getLat(), capsule.getLng(), 3);
+                                DecimalFormat df = new DecimalFormat();
+                                df.setMaximumFractionDigits(3);
+                                double lat = Double.parseDouble(df.format(capsule.getLat()));
+                                double lng = Double.parseDouble(df.format(capsule.getLng()));
+
+                                List<Address> list = geocoder.getFromLocation(lat, lng, 3);
                                 if (list != null) {
                                     if (list.size() == 0){
                                         // no

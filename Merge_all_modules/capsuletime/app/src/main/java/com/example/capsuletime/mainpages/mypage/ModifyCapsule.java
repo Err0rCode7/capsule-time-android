@@ -78,12 +78,6 @@ public class ModifyCapsule extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_capsule);
 
-        TedPermission.with(getApplicationContext())
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage("카메라 권한이 필요합니다.")
-                .setDeniedMessage("거부하셨습니다.")
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE)
-                .check();
 
         RetrofitClient retrofitClient = new RetrofitClient();
         retrofitInterface = retrofitClient.retrofitInterface;
@@ -231,13 +225,19 @@ public class ModifyCapsule extends AppCompatActivity {
 
         @Override
         public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-            Toast.makeText(getApplicationContext(), "권한이 거됨", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "권한이 거부됨", Toast.LENGTH_SHORT).show();
         }
     };
 
     // 카메라에서 사진 촬영
     public void doTakePhotoAction() { // 카메라 촬영후 이미지 가져오기
 
+        TedPermission.with(getApplicationContext())
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage("카메라 권한이 필요합니다.")
+                .setDeniedMessage("거부하셨습니다.")
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE)
+                .check();
 
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         if (permissionCheck == PackageManager.PERMISSION_DENIED) { // Camera Denied
@@ -289,6 +289,13 @@ public class ModifyCapsule extends AppCompatActivity {
 
     // 앨범에서 이미지 가져오기
     public void doTakeAlbumAction() {
+
+        TedPermission.with(getApplicationContext())
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage("카메라 권한이 필요합니다.")
+                .setDeniedMessage("거부하셨습니다.")
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .check();
 
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

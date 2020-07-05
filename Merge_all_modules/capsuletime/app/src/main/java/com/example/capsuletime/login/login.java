@@ -89,7 +89,7 @@ public class login extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<Success> call, Throwable t) {
-                        Toast.makeText(v.getContext(),"서버와 통신이 불가능합니ㄷ다.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(),"서버와 통신이 불가능합니다.",Toast.LENGTH_SHORT).show();
                     }
                 });
 
