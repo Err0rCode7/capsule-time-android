@@ -50,14 +50,21 @@ interface RetrofitInterface {
     ): Call<Success>
 
     @Multipart
-    @PUT ("/capsules/")
-    fun requestPutCapsule(
+    @PUT ("/capsules/with/images")
+    fun requestPutCapsuleWithImages(
             @Part("capsule_id") capsule_id: RequestBody,
             @Part("title") title: RequestBody,
             @Part("text") text: RequestBody,
-            //@Part("tag") tag: List<String>,
-            //@Part file: MultipartBody.Part
             @Part file: List<MultipartBody.Part>
+    ) : Call<Success>
+
+    @FormUrlEncoded
+    @PUT ("/capsules")
+    fun requestPutCapsule(
+            // input definition
+            @Field("capsule_id") capsule_id: Int,
+            @Field("title") title: String,
+            @Field("text") text: String
     ) : Call<Success>
 
     @GET ("/users/{user_id}")

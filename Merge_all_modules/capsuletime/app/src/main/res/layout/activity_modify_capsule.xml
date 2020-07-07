@@ -8,6 +8,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/modify_capsule_bg">
 
+
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/const_vp"
         android:layout_width="match_parent"
@@ -30,6 +32,35 @@
         app:tabBackground="@drawable/tab_selector"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_imageClose"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="380dp"
+        android:layout_marginLeft="380dp"
+        android:layout_marginBottom="150dp"
+        android:background="#FFFFFF"
+        android:clickable="true"
+        android:innerRadius="0dp"
+        android:shape="ring"
+        app:cardBackgroundColor="#AF9F9F9F"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout8"
+        app:layout_constraintEnd_toEndOf="@+id/const_vp"
+        app:layout_constraintStart_toStartOf="@+id/const_vp"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout7">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            app:srcCompat="@drawable/close" />
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout7"
@@ -121,44 +152,25 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/tv_tag"
+            android:id="@+id/tv_text"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
             android:layout_marginLeft="60dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="52dp"
             android:layout_marginEnd="1dp"
             android:layout_marginRight="1dp"
             android:background="@android:color/transparent"
-            android:hint="Tags"
-            android:inputType="text"
+            android:hint="Text"
+            android:inputType="textMultiLine"
+            android:lines="6"
+            android:maxLines="6"
             android:textColor="@color/colorPrimaryDark"
             android:textColorHint="#4F000000"
             android:textSize="8pt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
-
-        <EditText
-            android:id="@+id/tv_text"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginRight="1dp"
-            android:background="@android:color/transparent"
-            android:hint="Text"
-            android:inputType="textMultiLine"
-            android:textColor="@color/colorPrimaryDark"
-            android:textColorHint="#4F000000"
-            android:textSize="8pt"
-            android:lines="6"
-            android:maxLines="6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_tag" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

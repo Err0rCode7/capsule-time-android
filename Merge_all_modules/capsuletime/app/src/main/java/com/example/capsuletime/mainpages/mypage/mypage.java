@@ -202,7 +202,7 @@ public class mypage extends AppCompatActivity {
                             int capsule_id = capsule.getCapsule_id();
                             String title = capsule.getTitle() != null ? capsule.getTitle() : "";
                             String url = capsule.getContent().get(0).getUrl() != null ?
-                                    capsule.getContent().get(0).getUrl() : drawablePath;
+                                    capsule.getContent().get(0).getUrl() : Integer.toString(R.drawable.capsule_marker_angry);
                             List<Content> contentList = capsule.getContent();
                             String created_date = capsule.getDate_created();
                             String opened_date = capsule.getDate_created();

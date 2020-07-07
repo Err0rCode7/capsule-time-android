@@ -71,10 +71,19 @@ public class ViewCapsuleDialog {
 
         if (capsuleLogData.getContentList() != null){
             Log.d("list", capsuleLogData.getContentList().toString());
-            for(int i = 0; i < capsuleLogData.getContentList().size(); i++){
-                Uri uri = Uri.parse(capsuleLogData.getContentList().get(i).getUrl());
+            Uri uri;
+
+            if (capsuleLogData.getContentList().get(0).getUrl() == null){
+
+                uri = Uri.parse("android.resource://com.example.capsuletime/drawable/capsule_marker_yellow");
                 listUri.add(uri);
+            } else {
+                for(int i = 0; i < capsuleLogData.getContentList().size(); i++){
+                    uri = Uri.parse(capsuleLogData.getContentList().get(i).getUrl());
+                    listUri.add(uri);
+                }
             }
+
         } else {
             String drawablePath = "res:///" + R.drawable.capsule_temp;
             Uri uri = Uri.parse(drawablePath);

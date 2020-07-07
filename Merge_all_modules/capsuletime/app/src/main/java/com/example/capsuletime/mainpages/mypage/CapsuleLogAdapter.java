@@ -2,6 +2,7 @@ package com.example.capsuletime.mainpages.mypage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.capsuletime.CapsuleLogData;
 import com.example.capsuletime.R;
-import com.example.capsuletime.mainpages.mypage.dialogs.ViewCapsuleDialog;;
+import com.example.capsuletime.mainpages.mypage.dialogs.ViewCapsuleDialog;
+import com.google.android.gms.common.server.converter.StringToIntConverter;;
 
 import java.util.ArrayList;
 
@@ -55,16 +57,24 @@ public class CapsuleLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-
-
         if(getItemViewType(position) == 0){
 
-            Glide
-                    .with(context)
-                    .load(arrayList.get(position).getIv_url())
-                    .centerCrop()
-                    //.override(50,50)
-                    .into(((CapsuleViewHolder) holder).iv_thumb);
+            if(arrayList.get(position).getIv_url().length() == 10){
+                Glide
+                        .with(context)
+                        .load(Integer.parseInt(arrayList.get(position).getIv_url()))
+                        .centerCrop()
+                        .into(((CapsuleViewHolder) holder).iv_thumb);
+            } else {
+                Glide
+                        .with(context)
+                        .load(arrayList.get(position).getIv_url())
+                        .centerCrop()
+                        .into(((CapsuleViewHolder) holder).iv_thumb);
+            }
+
+
+
             //holder.iv_thumb.setImageResource(arrayList.get(position).getIv_thumb());
             ((CapsuleViewHolder) holder).tv_title.setText(arrayList.get(position).getTv_title());
             //((CapsuleViewHolder) holder).tv_tags.setText(arrayList.get(position).getTv_tags());

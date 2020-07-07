@@ -26,6 +26,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -65,6 +66,7 @@ public class ModifyCapsule extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 100;
     private int capsule_id;
     private List<Uri> list;
+    private Boolean EmptyUriListFlag;
     private Uri photoUri;
     private Uri cropUri;
     private ViewPager viewPager;
@@ -72,7 +74,7 @@ public class ModifyCapsule extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private String imageFilePath;
     private String user_id;
-
+    private CardView btn_imageClose;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,15 +94,16 @@ public class ModifyCapsule extends AppCompatActivity {
         list.add("http://118.44.168.218:7070/contents/2.jpeg");
         list.add("http://118.44.168.218:7070/contents/1.mp4");
         */
+        btn_imageClose = (CardView) findViewById(R.id.btn_imageClose);
         Button btn_cancel = (Button) findViewById(R.id.btn_delete);
         Button btn_set = (Button)findViewById(R.id.btn_set);
         EditText tv_title = (EditText)findViewById(R.id.tv_title);
         EditText tv_text = (EditText)findViewById(R.id.tv_text);
-        EditText tv_tag = (EditText)findViewById(R.id.tv_tag);
 
         viewPager = (ViewPager)findViewById(R.id.const_vp);
         tabLayout = (TabLayout)findViewById(R.id.tab_layout);
 
+        btn_imageClose.setVisibility(View.GONE);
         /*
         Uri uri = Uri.parse(
                 ContentResolver.SCHEME_ANDROID_RESOURCE +
@@ -110,7 +113,7 @@ public class ModifyCapsule extends AppCompatActivity {
         */
         Uri test = Uri.parse("");
         list.add(test);
-
+        EmptyUriListFlag = true;
         tabLayout.setupWithViewPager(viewPager, true);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, list, 1, tabLayout);
@@ -123,6 +126,21 @@ public class ModifyCapsule extends AppCompatActivity {
             }
         });
 
+        btn_imageClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Do clear UriList and set viewPage to '+' image
+                fileDelete(cropUri);
+                list.clear();
+                list.add(test);
+                EmptyUriListFlag = true;
+                ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(v.getContext(), list, 1, tabLayout);
+                viewPager.setAdapter(viewPagerAdapter);
+                btn_imageClose.setVisibility(View.GONE);
+
+            }
+        });
+
         btn_set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +148,6 @@ public class ModifyCapsule extends AppCompatActivity {
                 // 이미지 등록
                 String title = Objects.requireNonNull(tv_title.getText()).toString(); // null -> ""
                 String text = Objects.requireNonNull(tv_text.getText()).toString();
-                String tag = Objects.requireNonNull(tv_tag.getText()).toString();
                 if (title.equals("")){
                     Toast.makeText(ModifyCapsule.this,"제목을 입력해주세요.",Toast.LENGTH_SHORT).show();
                     return;
@@ -138,22 +155,6 @@ public class ModifyCapsule extends AppCompatActivity {
                 RequestBody id_body = RequestBody.create(MediaType.parse("text/plain"), Integer.toString(capsule_id));
                 RequestBody title_body = RequestBody.create(MediaType.parse("text/plain"), title);
                 RequestBody text_body = RequestBody.create(MediaType.parse("text/plain"), text);
-                RequestBody tag_body = RequestBody.create(MediaType.parse("text/plain"), tag);
-
-                List<MultipartBody.Part> parts = new ArrayList<>();
-                List<String> tags = new ArrayList<>();
-                //
-                for (int i = 0; i < list.size(); i++){
-
-                    String absolutePath = getPath(v.getContext(),list.get(i));
-                    if (absolutePath != null)
-                    {
-                        File file = new File(absolutePath);
-                        String type = getMimeType(file);
-                        RequestBody requestFile = RequestBody.create(MediaType.parse(type), file);
-                        parts.add(MultipartBody.Part.createFormData("file",file.getName(), requestFile));
-                    }
-                }
 
 
 
@@ -163,17 +164,32 @@ public class ModifyCapsule extends AppCompatActivity {
                 RequestBody requestFile = RequestBody.create(MediaType.parse(type), file);
                 MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
                 */
-                if( capsule_id != -1) {
-                    retrofitInterface.requestPutCapsule(id_body, title_body, text_body, parts).enqueue(new Callback<Success>() {
+
+                // Will need
+
+                if( capsule_id != -1 && !EmptyUriListFlag) {
+
+                    List<MultipartBody.Part> parts = new ArrayList<>();
+                    for (int i = 0; i < list.size(); i++){
+
+                        String absolutePath = getPath(v.getContext(),list.get(i));
+                        if (absolutePath != null)
+                        {
+                            File file = new File(absolutePath);
+                            String type = getMimeType(file);
+                            RequestBody requestFile = RequestBody.create(MediaType.parse(type), file);
+                            parts.add(MultipartBody.Part.createFormData("file",file.getName(), requestFile));
+                        }
+                    }
+
+                    retrofitInterface.requestPutCapsuleWithImages(id_body, title_body, text_body, parts).enqueue(new Callback<Success>() {
                         @Override
                         public void onResponse(Call<Success> call, Response<Success> response) {
-                            Log.d(TAG,"success");
+                            Log.d(TAG,"success with images");
 
                             fileDelete(cropUri);
 
                             Toast.makeText(ModifyCapsule.this,"캡슐 수정이 완료되었습니다.",Toast.LENGTH_SHORT).show();
-
-                            //refresh ViewPager
                             Intent intent = new Intent(ModifyCapsule.this, mypage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -184,8 +200,33 @@ public class ModifyCapsule extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<Success> call, Throwable t) {
+                            Log.d(TAG,"fail");
 
                             fileDelete(cropUri);
+                            list.clear();
+                            list.add(test);
+                            EmptyUriListFlag = true;
+                            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(v.getContext(), list, 1, tabLayout);
+                            viewPager.setAdapter(viewPagerAdapter);
+                            btn_imageClose.setVisibility(View.GONE);
+
+                            Toast.makeText(ModifyCapsule.this,"캡슐 내용을 수정해주세요",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else if ( capsule_id != -1 && EmptyUriListFlag) {
+                    retrofitInterface.requestPutCapsule(capsule_id, title, text).enqueue(new Callback<Success>() {
+                        @Override
+                        public void onResponse(Call<Success> call, Response<Success> response) {
+                            Toast.makeText(ModifyCapsule.this,"캡슐 수정이 완료되었습니다.",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(ModifyCapsule.this, mypage.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("user_id",user_id);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onFailure(Call<Success> call, Throwable t) {
                             Log.d(TAG,"fail");
                             Toast.makeText(ModifyCapsule.this,"캡슐 내용을 수정해주세요",Toast.LENGTH_SHORT).show();
                         }
@@ -350,6 +391,8 @@ public class ModifyCapsule extends AppCompatActivity {
 
                     ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, list, 0, tabLayout);
                     viewPager.setAdapter(viewPagerAdapter);
+                    EmptyUriListFlag = false;
+                    btn_imageClose.setVisibility(View.VISIBLE);
 
                 } else { // 이미지 한개 클릭
                     Uri imageUri = data.getData();
@@ -358,7 +401,8 @@ public class ModifyCapsule extends AppCompatActivity {
                     list.add(imageUri);
                     ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, list, 0, tabLayout);
                     viewPager.setAdapter(viewPagerAdapter);
-
+                    EmptyUriListFlag = false;
+                    btn_imageClose.setVisibility(View.VISIBLE);
                 }
                 break;
 
@@ -460,7 +504,8 @@ public class ModifyCapsule extends AppCompatActivity {
                 list.add(cropUri);
                 ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, list, 0, tabLayout);
                 viewPager.setAdapter(viewPagerAdapter);
-
+                EmptyUriListFlag = false;
+                btn_imageClose.setVisibility(View.VISIBLE);
                 // 임시 파일 삭제
                 /*
                 File f = new File(mImageCaptureUri.getPath());
