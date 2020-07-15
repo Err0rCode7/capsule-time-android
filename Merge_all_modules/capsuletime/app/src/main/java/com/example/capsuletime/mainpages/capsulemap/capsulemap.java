@@ -89,7 +89,7 @@ public class capsulemap extends AppCompatActivity implements OnMapReadyCallback,
 
         initCapsuleMarkerImageIdList();
 
-        RetrofitClient retrofitClient = new RetrofitClient();
+        RetrofitClient retrofitClient = new RetrofitClient(getApplicationContext());
         retrofitInterface = retrofitClient.retrofitInterface;
 
         final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -248,7 +248,7 @@ public class capsulemap extends AppCompatActivity implements OnMapReadyCallback,
 
         mMap = googleMap;
 
-        RetrofitClient retrofitClient = new RetrofitClient();
+        RetrofitClient retrofitClient = new RetrofitClient(getApplicationContext());
         retrofitInterface = retrofitClient.retrofitInterface;
 
         final Geocoder geocoder = new Geocoder(this, Locale.getDefault());

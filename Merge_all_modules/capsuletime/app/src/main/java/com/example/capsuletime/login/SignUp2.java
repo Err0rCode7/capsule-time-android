@@ -93,7 +93,7 @@ public class SignUp2 extends AppCompatActivity {
         CardView cv_close_picture = (CardView) this.findViewById(R.id.btn_close);
         Button btn_finish = (Button) this.findViewById(R.id.btn_signupfinish);
 
-        RetrofitClient retrofitClient = new RetrofitClient();
+        RetrofitClient retrofitClient = new RetrofitClient(getApplicationContext());
         retrofitInterface = retrofitClient.retrofitInterface;
 
         /*

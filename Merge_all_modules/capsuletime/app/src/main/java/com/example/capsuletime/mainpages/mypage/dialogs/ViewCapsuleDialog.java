@@ -54,7 +54,7 @@ public class ViewCapsuleDialog {
         dlg.setContentView(R.layout.dialog_view_capsule);
         dlg.setCancelable(true);
         dlg.show();
-        RetrofitClient retrofitClient = new RetrofitClient();
+        RetrofitClient retrofitClient = new RetrofitClient(context);
         retrofitInterface = retrofitClient.retrofitInterface;
 
         TextView tv_title = (TextView) dlg.findViewById(R.id.tv_title);

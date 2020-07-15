@@ -1,15 +1,30 @@
 package com.example.capsuletime;
 
+import android.content.Context;
+
+import com.example.capsuletime.core.interceptor.AddCookiesInterceptor;
+import com.example.capsuletime.core.interceptor.ReceivedCookiesInterceptor;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
     //객체생성
-    String URL = "http://118.44.168.218:7070";
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
+    String URL = "http://211.248.58.81:7070";
+    public RetrofitInterface retrofitInterface;
+    public RetrofitClient(Context context) {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new ReceivedCookiesInterceptor(context))
+                .addNetworkInterceptor(new AddCookiesInterceptor(context))
+                .build();
 
-    public RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
+    }
 }

@@ -81,7 +81,7 @@ public class ModifyCapsule extends AppCompatActivity {
         setContentView(R.layout.activity_modify_capsule);
 
 
-        RetrofitClient retrofitClient = new RetrofitClient();
+        RetrofitClient retrofitClient = new RetrofitClient(getApplicationContext());
         retrofitInterface = retrofitClient.retrofitInterface;
 
         list = new ArrayList<>();

@@ -9,6 +9,10 @@ data class Success (
         val success : String
 )
 
+data class Logined(
+        val nick_name: String?
+)
+
 data class Content (
         val content_id: Int?,
         val url: String?

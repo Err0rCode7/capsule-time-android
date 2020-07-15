@@ -1,6 +1,5 @@
 package com.example.capsuletime.mainpages.mypage;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -28,6 +27,7 @@ import com.example.capsuletime.R;
 import com.example.capsuletime.RetrofitClient;
 import com.example.capsuletime.RetrofitInterface;
 import com.example.capsuletime.User;
+import com.example.capsuletime.core.preferences.NickNameSharedPreferences;
 import com.example.capsuletime.mainpages.ar.UnityPlayerActivity;
 import com.example.capsuletime.mainpages.capsulemap.capsulemap;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,6 +39,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -50,7 +51,7 @@ import retrofit2.Response;
 
 public class mypage extends AppCompatActivity {
 
-    private String user_id;
+    private String nick_name;
     private ArrayList<CapsuleLogData> arrayList;
     private CapsuleLogAdapter capsuleLogAdapter;
     private RecyclerView recyclerView;
@@ -68,19 +69,34 @@ public class mypage extends AppCompatActivity {
         setContentView(R.layout.activity_mypage);
         Log.d(TAG,"FFFF is mypage");
         Intent intent = getIntent();
-        user_id = intent.getStringExtra("user_id");
+        //nick_name = intent.getStringExtra("nick_name");
         user = intent.getParcelableExtra("user");
         fromArFlag = intent.getIntExtra("fromAr",0);
         Log.d("Hello","mypage");
 
+        
+        NickNameSharedPreferences nickNameSharedPreferences = NickNameSharedPreferences.getInstanceOf(getApplicationContext());
+        HashSet<String> nickNameSharedPrefer = (HashSet<String>) nickNameSharedPreferences.getHashSet(
+                NickNameSharedPreferences.NICKNAME_SHARED_PREFERENCES_KEY,
+                new HashSet<String>()
+        );
+        int count = 0;
+        for (String nick : nickNameSharedPrefer) {
+            if (count == 0){
+                Log.d(TAG, nick);
+                nick_name = nick;
+            }
+            count ++;
+        }
+        
 
         ImageView iv_user = (ImageView) this.findViewById(R.id.user_image);
-        TextView tv_id = (TextView) this.findViewById(R.id.tv_userId);
+        TextView tv_nickName = (TextView) this.findViewById(R.id.tv_userId);
 
-        if(user_id != null)
-            tv_id.setText(user_id);
+        if(nick_name != null)
+            tv_nickName.setText(nick_name);
 
-        RetrofitClient retrofitClient = new RetrofitClient();
+        RetrofitClient retrofitClient = new RetrofitClient(getApplicationContext());
         retrofitInterface = retrofitClient.retrofitInterface;
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -97,7 +113,7 @@ public class mypage extends AppCompatActivity {
         iv_user.setImageResource(R.drawable.user);
 
         if(user == null){
-            retrofitInterface.requestUserData(user_id).enqueue(new Callback<User>() {
+            retrofitInterface.requestUserData(nick_name).enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     user = response.body();
@@ -113,10 +129,10 @@ public class mypage extends AppCompatActivity {
                                 .into(iv_user);
                         }
 
-                        tv_id.setText(user.getUser_id());
+                        tv_nickName.setText(user.getNick_name());
                     } else {
                         iv_user.setImageResource(R.drawable.user);
-                        tv_id.setText("서버통신오류");
+                        tv_nickName.setText("서버통신오류");
                     }
                 }
 
@@ -136,7 +152,7 @@ public class mypage extends AppCompatActivity {
                     .load(user.getImage_url())
                     .into(iv_user);
             }
-            tv_id.setText(user.getUser_id());
+            tv_nickName.setText(user.getNick_name());
         }
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
@@ -188,7 +204,7 @@ public class mypage extends AppCompatActivity {
             }
         });
 
-        String inStr = (user_id != null) ? user_id : user.getUser_id();
+        String inStr = (nick_name != null) ? nick_name : user.getNick_name();
         if (inStr != null)
             retrofitInterface.requestSearchUserCapsule(inStr).enqueue(new Callback<List<Capsule>>() {
 

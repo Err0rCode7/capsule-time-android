@@ -13,7 +13,7 @@ interface RetrofitInterface {
             // input definition
             @Field("user_id") user_id:String,
             @Field("password") password:String
-    ) : Call<Success>
+    ) : Call<Logined>
 
     @FormUrlEncoded// form url encode
     @POST("/users/") // url
@@ -39,9 +39,9 @@ interface RetrofitInterface {
             @Part file: MultipartBody.Part
     ) : Call<Success>
 
-    @GET("/capsules/user")
+    @GET("/capsules/nick/{nick_name}")
     fun requestSearchUserCapsule(
-            @Query("user_id") user_id: String
+            @Path("nick_name") nick_name: String
     ): Call<List<Capsule>>
 
     @DELETE("/capsules/{capsule_id}")
@@ -67,14 +67,14 @@ interface RetrofitInterface {
             @Field("text") text: String
     ) : Call<Success>
 
-    @GET ("/users/{user_id}")
+    @GET ("/users/nick/{nick_name}")
     fun requestUserData (
-            @Path("user_id") user_id: String
+            @Path("nick_name") nick_name: String
     ): Call<User>
 
-    @GET("/users/{user_id}")
+    @GET("/users/nick/{nick_name}")
     fun requestSearchUser(
-            @Path("user_id") user_id: String
+            @Path("nick_name") nick_name: String
     ):Call <User>
 
     @GET("/capsules/")
